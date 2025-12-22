@@ -6,7 +6,7 @@
 
 - **总交易笔数**: 1,539 笔
 - **时间范围**: 2012-2020
-- **Merkle Root Hash**: [你算出的hash值]
+- **Merkle Root Hash**: [0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a]
 
 ## 验证方法
 
