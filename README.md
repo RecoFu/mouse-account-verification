@@ -41,13 +41,13 @@ Verification: GitHub Commit + Gmail Timestamp + Merkle Hash
 
 ---
 
-## Step 3: Gmail 邮件样本
+## Gmail 邮件样本
 
-你给的邮件：
+邮件：
 ```
 Date: 2020/02/24 09:03:44 GMT
-From: OrderMaster <trading.reco@gmail.com>
-To: reco.fu@gmail.com
+From: OrderMaster  
+To:  gmail.com
 
 【TCA】 "11543" 減碼多單
 策略倉位: 11 → 10
@@ -63,18 +63,3 @@ To: reco.fu@gmail.com
 - ✅ 账户：KGI
 - ✅ 交易方向：減碼多單（空）
 - ✅ 成交价：11543
-
----
-
-## 现在你要做的
-```
-□ Step 1: 运行 compute_merkle.py，告诉我结果
-   你会看到这样的输出：
-   ✅ Merkle Root Hash: [你的hash值]
-   📊 Total Records: 1539
-
-□ Step 2: 上传到 GitHub
-   结果: https://github.com/RecoFu/mouse-account-verification
-
-□ Step 3: 告诉我
-   "Merkle Hash 是什么"
