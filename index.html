@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign Virtual Clearing Engine V7.5</title>
+    <title>Sovereign System V7.6 - Final Alignment</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body { background-color: #0d1117; color: #c9d1d9; font-family: 'Courier New', monospace; margin: 20px; }
-        #chart { width: 100%; height: 600px; border: 1px solid #30363d; margin-top: 20px; background: #000; }
+        #chart { width: 100%; height: 620px; border: 1px solid #30363d; margin-top: 20px; background: #000; border-radius: 8px; }
         #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 180px; overflow-y: scroll; font-size: 13px; color: #58a6ff; line-height: 1.6; }
-        .ok { color: #3fb950; }
+        .ok { color: #3fb950; font-weight: bold; }
         .info { color: #d29922; }
-        .title-group { display: flex; justify-content: space-between; align-items: baseline; }
+        .err { color: #f85149; }
     </style>
 </head>
 <body>
-    <div class="title-group">
-        <h2>🏛️ 九年量化實證：虛擬結算 (V7.5)</h2>
-        <span style="font-size: 14px; color: #8b949e;">9-Year Quant Verification: Virtual Clearing</span>
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2>🏛️ 九年量化實證：虛擬結算 (V7.6)</h2>
+        <span style="font-size: 14px; color: #8b949e;">V7.6 Flagship: Mark-to-Market Engine</span>
     </div>
-    <div id="log">系統引導中... System Booting...<br></div>
+    <div id="log">系統熱啟動中... System Warm Booting...<br></div>
     <div id="chart"></div>
 
     <script>
@@ -30,7 +30,7 @@
         }
 
         window.onload = function() {
-            writeLog("讀取數據流", "Requesting Data Stream: data.csv", "info");
+            writeLog("連線物理數據源", "Connecting to Data Source: data.csv", "info");
             
             Papa.parse("data.csv", {
                 download: true,
@@ -42,78 +42,70 @@
                         const chart = LightweightCharts.createChart(container, {
                             layout: { backgroundColor: '#0d1117', textColor: '#d1d4dc' },
                             grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
-                            priceScale: { 
-                                autoScale: true,
-                                borderVisible: true,
-                                // Y 軸單位改為「萬」
-                                mode: 0, 
-                            },
-                            localization: {
-                                priceFormatter: price => (price).toFixed(2) + ' 萬',
-                            },
+                            priceScale: { autoScale: true, borderVisible: true },
+                            localization: { priceFormatter: p => p.toFixed(2) + ' 萬' },
                             timeScale: { borderColor: '#30363d', timeVisible: true }
                         });
 
                         const lineSeries = chart.addLineSeries({ 
                             color: '#2962ff', 
                             lineWidth: 3, 
-                            title: '淨值 Equity (萬)',
-                            priceFormat: { type: 'price', precision: 2, minMove: 0.01 }
+                            title: '帳戶淨值 Equity (萬)' 
                         });
 
-                        // 1. 強正則解析數據 (Strict Regex Parsing)
-                        writeLog("物理層數據校準", "Calibrating Physical Layer Data...");
-                        let rawData = results.data.map(row => {
-                            const timeVal = row["交易時間"] || row["郵件日期"];
-                            if (!timeVal) return null;
+                        // 1. 強健的數據清洗引擎
+                        writeLog("執行數據清洗", "Executing Data Scrubbing...");
+                        const clean = (val) => {
+                            if (!val) return NaN;
+                            let res = parseFloat(String(val).replace(/[^-0-9.]/g, ''));
+                            return isNaN(res) ? NaN : res;
+                        };
 
-                            const cleanNum = (str) => parseFloat(String(str).replace(/[^-0.9.]/g, ''));
+                        let rawData = results.data.map(row => {
+                            const tStr = row["交易時間"] || row["郵件日期"];
+                            if (!tStr) return null;
                             
                             return {
-                                t: new Date(timeVal.replace(/\//g, '-')).getTime() / 1000,
-                                price: cleanNum(row["價格"]),
-                                posAfter: cleanNum(row["倉位後"]),
-                                posBefore: cleanNum(row["倉位前"])
+                                t: new Date(tStr.replace(/\//g, '-')).getTime() / 1000,
+                                price: clean(row["價格"]),
+                                pos: clean(row["倉位後"])
                             };
-                        }).filter(d => !isNaN(d.t) && !isNaN(d.price)).sort((a, b) => a.t - b.t);
+                        })
+                        // 關鍵：過濾掉任何價格或倉位為空的行 (排除系統訊息)
+                        .filter(d => d !== null && !isNaN(d.t) && !isNaN(d.price) && !isNaN(d.pos))
+                        .sort((a, b) => a.t - b.t);
 
-                        // 2. 盯市結算引擎 (Mark-to-Market Engine)
-                        writeLog("啟動逐筆結算", "Initiating MTM Clearing Engine...", "info");
-                        
-                        let initialCapital = 5.0; // 起始資金 5 萬 (單位：萬)
-                        let currentEquity = initialCapital;
+                        writeLog(`有效交易真跡: ${rawData.length} 筆`, `Valid Trade Artifacts: ${rawData.length} records`, "ok");
+
+                        // 2. 盯市累計積算 (起始 5 萬)
+                        let currentEquity = 5.0; 
                         let lastPrice = rawData[0].price;
                         let lastPos = 0;
                         let lastTime = 0;
-                        
                         const equityCurve = [];
 
-                        rawData.forEach((trade, index) => {
-                            // 計算損益變動 (點數 * 50 / 10000 = 萬)
-                            // 邏輯：前一筆倉位 * (當前價格 - 前一筆價格)
-                            const pnlChange = (lastPos * (trade.price - lastPrice) * 50) / 10000;
-                            currentEquity += pnlChange;
+                        rawData.forEach((trade) => {
+                            // 損益 = 前一筆倉位 * (現價 - 前價) * 50 / 10000
+                            const pnl = (lastPos * (trade.price - lastPrice) * 50) / 10000;
+                            currentEquity += pnl;
 
-                            // 處理時間戳重複問題
                             let adjustedTime = trade.t;
                             if (adjustedTime <= lastTime) adjustedTime = lastTime + 1;
                             lastTime = adjustedTime;
 
                             equityCurve.push({ time: adjustedTime, value: currentEquity });
 
-                            // 更新暫存器
                             lastPrice = trade.price;
-                            lastPos = trade.posAfter;
+                            lastPos = trade.pos;
                         });
 
                         lineSeries.setData(equityCurve);
                         chart.timeScale().fitContent();
                         
-                        const finalValue = currentEquity.toFixed(2);
-                        writeLog(`結算完成。最終權益: ${finalValue} 萬`, `Clearing Done. Final Equity: ${finalValue}0k`, "ok");
+                        writeLog(`結算完成。最終權益: ${currentEquity.toFixed(2)} 萬`, "Clearing Complete.", "ok");
 
                     } catch (err) {
-                        writeLog("引擎致命錯誤", "Engine Fatal Error: " + err.message, "err");
+                        writeLog("引擎故障", "Engine Malfunction: " + err.message, "err");
                         console.error(err);
                     }
                 }
