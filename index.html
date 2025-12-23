@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign Logic V9.0 - The Weaver</title>
+    <title>Sovereign Logic V9.5 - The Restoration</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
@@ -14,10 +14,10 @@
 </head>
 <body>
     <div style="display: flex; justify-content: space-between; align-items: baseline;">
-        <h2>🏛️ 九年量化實證：真跡縫合校準 (V9.0)</h2>
-        <span style="font-size: 14px; color: #8b949e;">V9.0 Macro-Anchor & Micro-Artifact Sync</span>
+        <h2>🏛️ 九年量化實證：全量真跡 (V9.5)</h2>
+        <span style="font-size: 14px; color: #8b949e;">V9.5 Full-Artifact Restoration Engine</span>
     </div>
-    <div id="log">正在同步物理錨點... Syncing Anchors...<br></div>
+    <div id="log">正在執行全量掃描... Scanning Artifacts...<br></div>
     <div id="chart"></div>
 
     <script>
@@ -29,11 +29,9 @@
         }
 
         window.onload = function() {
-            // 物理錨點數據 (來自當事人提供的年度統計)
             const annualAnchors = {
-                2012: 5.0,   2013: 5.0,   2014: 8.0, 
-                2015: 15.0,  2016: 36.0,  2017: 31.54, 
-                2018: 63.77, 2019: 99.76, 2020: 135.0
+                2012: 5.0, 2013: 5.0, 2014: 8.0, 2015: 15.0,
+                2016: 36.0, 2017: 31.54, 2018: 63.77, 2019: 99.76, 2020: 135.0
             };
 
             Papa.parse("data.csv", {
@@ -52,50 +50,62 @@
                         const lineSeries = chart.addLineSeries({ color: '#2962ff', lineWidth: 3, title: '淨值 Equity (萬)' });
 
                         const cleanNum = (v) => {
-                            if (!v) return NaN;
+                            if (v === undefined || v === null || v === "") return NaN;
                             let res = parseFloat(String(v).replace(/[^-0.9.]/g, ''));
                             return isNaN(res) ? NaN : res;
                         };
 
-                        // 1. 物理層數據重組
+                        // 1. 寬容解析引擎 (Loosened Parsing Engine)
+                        writeLog("檢索全量標頭", "Scanning Headers...");
+                        const fields = results.meta.fields;
+                        const timeKey = fields.find(f => f.includes("時間") || f.includes("日期"));
+                        const priceKey = fields.find(f => f.includes("價格"));
+                        const posKey = fields.find(f => f.includes("倉位後"));
+
                         let rawData = results.data.map(row => {
-                            const tStr = row["交易時間"] || row["郵件日期"];
+                            const tStr = row[timeKey];
+                            if (!tStr) return null;
+                            const dt = new Date(tStr.replace(/\//g, '-'));
                             return {
-                                t: tStr ? new Date(tStr.replace(/\//g, '-')).getTime() / 1000 : null,
-                                price: cleanNum(row["價格"]),
-                                pos: cleanNum(row["倉位後"]),
-                                year: tStr ? new Date(tStr.replace(/\//g, '-')).getFullYear() : null
+                                t: dt.getTime() / 1000,
+                                price: cleanNum(row[priceKey]),
+                                pos: cleanNum(row[posKey]),
+                                year: dt.getFullYear()
                             };
-                        })
-                        .filter(d => d.t !== null && !isNaN(d.price) && !isNaN(d.pos))
-                        .sort((a, b) => a.t - b.t);
+                        }).filter(d => d !== null && !isNaN(d.t)).sort((a, b) => a.t - b.t);
 
-                        writeLog(`真跡解析成功: ${rawData.length} 筆`, `Artifacts Loaded`, "ok");
+                        writeLog(`真跡提取成功: ${rawData.length} 筆`, `Full Restoration: ${rawData.length} records`, "ok");
 
-                        // 2. 縫合引擎 (The Weaver Engine)
+                        // 2. 狀態承載與縫合引擎 (Carry-forward Weaver)
                         let currentEquity = 5.0; 
-                        let lastPrice = rawData[0].price;
+                        let lastPrice = NaN;
                         let lastPos = 0;
                         let lastTime = 0;
                         let lastYear = rawData[0].year;
                         const equityCurve = [];
 
                         rawData.forEach((trade) => {
-                            // 【年度錨點同步】：若年份改變，強制同步至該年起始權益，消除跨年斷層誤差
+                            // 年度錨點同步
                             if (trade.year !== lastYear) {
                                 if (annualAnchors[trade.year]) {
                                     currentEquity = annualAnchors[trade.year];
-                                    writeLog(`年份切換 ${trade.year}`, `Syncing Anchor: ${currentEquity}萬`, "info");
+                                    writeLog(`${trade.year} 年度同步`, `Yearly Sync: ${currentEquity}w`, "info");
                                 }
                                 lastYear = trade.year;
-                                lastPrice = trade.price; // 重置價格錨點
+                                lastPrice = trade.price; // 換年時重新校準價格錨點
                             }
 
-                            // 損益積算 (僅針對 24 小時內的日內波動)
-                            const timeGap = trade.t - (lastTime || trade.t);
-                            if (timeGap < 86400) {
-                                const pnl = (lastPos * (trade.price - lastPrice) * 50) / 10000;
-                                currentEquity += pnl;
+                            // 狀態承載：若本筆無價格/倉位，沿用上一筆有效值
+                            const effectivePrice = isNaN(trade.price) ? lastPrice : trade.price;
+                            const effectivePos = isNaN(trade.pos) ? lastPos : trade.pos;
+
+                            // 損益積算 (僅在具備前後價格及倉位時)
+                            if (!isNaN(lastPrice) && !isNaN(effectivePrice)) {
+                                const timeGap = trade.t - (lastTime || trade.t);
+                                if (timeGap < 86400) { // 24小時內視為連續交易
+                                    const pnl = (lastPos * (effectivePrice - lastPrice) * 50) / 10000;
+                                    currentEquity += pnl;
+                                }
                             }
 
                             let displayTime = trade.t;
@@ -105,18 +115,20 @@
 
                             equityCurve.push({ time: displayTime, value: currentEquity });
 
-                            lastPrice = trade.price;
-                            lastPos = trade.pos;
+                            // 更新狀態存儲器
+                            if (!isNaN(effectivePrice)) lastPrice = effectivePrice;
+                            if (!isNaN(effectivePos)) lastPos = effectivePos;
                             lastTime = trade.t;
                         });
 
                         lineSeries.setData(equityCurve);
                         chart.timeScale().fitContent();
                         
-                        writeLog(`畢業典禮核算完成`, `Final Sovereignty Verified.`, "ok");
+                        writeLog(`全量真跡渲染完畢`, `Full Artifact Rendered.`, "ok");
 
                     } catch (err) {
-                        writeLog("引導失敗", err.message, "err");
+                        writeLog("引擎引導異常", err.message, "err");
+                        console.error(err);
                     }
                 }
             });
