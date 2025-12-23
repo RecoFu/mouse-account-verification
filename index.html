@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign Virtual Clearing Engine</title>
+    <title>Sovereign Virtual Clearing Engine V7.5</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body { background-color: #0d1117; color: #c9d1d9; font-family: 'Courier New', monospace; margin: 20px; }
         #chart { width: 100%; height: 600px; border: 1px solid #30363d; margin-top: 20px; background: #000; }
-        #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 180px; overflow-y: scroll; font-size: 13px; color: #58a6ff; }
+        #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 180px; overflow-y: scroll; font-size: 13px; color: #58a6ff; line-height: 1.6; }
         .ok { color: #3fb950; }
         .info { color: #d29922; }
+        .title-group { display: flex; justify-content: space-between; align-items: baseline; }
     </style>
 </head>
 <body>
-    <h2>🏛️ 九年量化實證：虛擬結算真跡 (V7.0)</h2>
-    <div id="log">啟動虛擬結算引擎...<br></div>
+    <div class="title-group">
+        <h2>🏛️ 九年量化實證：虛擬結算 (V7.5)</h2>
+        <span style="font-size: 14px; color: #8b949e;">9-Year Quant Verification: Virtual Clearing</span>
+    </div>
+    <div id="log">系統引導中... System Booting...<br></div>
     <div id="chart"></div>
 
     <script>
         const logEl = document.getElementById('log');
-        function writeLog(msg, className = '') {
-            logEl.innerHTML += `<span class="${className}">[${new Date().toLocaleTimeString()}] ${msg}</span><br>`;
+        function writeLog(cn, en, className = '') {
+            const time = new Date().toLocaleTimeString();
+            logEl.innerHTML += `<span class="${className}">[${time}] ${cn} | ${en}</span><br>`;
             logEl.scrollTop = logEl.scrollHeight;
         }
 
         window.onload = function() {
+            writeLog("讀取數據流", "Requesting Data Stream: data.csv", "info");
+            
             Papa.parse("data.csv", {
                 download: true,
                 header: true,
@@ -35,74 +42,79 @@
                         const chart = LightweightCharts.createChart(container, {
                             layout: { backgroundColor: '#0d1117', textColor: '#d1d4dc' },
                             grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
-                            priceScale: { autoScale: true },
+                            priceScale: { 
+                                autoScale: true,
+                                borderVisible: true,
+                                // Y 軸單位改為「萬」
+                                mode: 0, 
+                            },
+                            localization: {
+                                priceFormatter: price => (price).toFixed(2) + ' 萬',
+                            },
                             timeScale: { borderColor: '#30363d', timeVisible: true }
                         });
 
-                        const lineSeries = chart.addLineSeries({ color: '#2962ff', lineWidth: 3, title: '推估淨值 (Equity)' });
+                        const lineSeries = chart.addLineSeries({ 
+                            color: '#2962ff', 
+                            lineWidth: 3, 
+                            title: '淨值 Equity (萬)',
+                            priceFormat: { type: 'price', precision: 2, minMove: 0.01 }
+                        });
 
-                        // 1. 物理排序
-                        let data = results.data.map(row => ({
-                            t: new Date((row["交易時間"] || row["郵件日期"]).replace(/\//g, '-')).getTime() / 1000,
-                            price: parseFloat(row["價格"]),
-                            qtyChange: parseFloat(row["數量"]),
-                            posAfter: parseFloat(row["倉位後"])
-                        })).filter(d => !isNaN(d.t) && !isNaN(d.price)).sort((a, b) => a.t - b.t);
+                        // 1. 強正則解析數據 (Strict Regex Parsing)
+                        writeLog("物理層數據校準", "Calibrating Physical Layer Data...");
+                        let rawData = results.data.map(row => {
+                            const timeVal = row["交易時間"] || row["郵件日期"];
+                            if (!timeVal) return null;
 
-                        // 2. 虛擬結算邏輯
-                        writeLog("執行虛擬結算中 (小型台指 1點=50元)...", "info");
-                        let equity = 1350000; // 2020 起始資金
-                        let avgCost = 0;
-                        let currentPos = 0;
+                            const cleanNum = (str) => parseFloat(String(str).replace(/[^-0.9.]/g, ''));
+                            
+                            return {
+                                t: new Date(timeVal.replace(/\//g, '-')).getTime() / 1000,
+                                price: cleanNum(row["價格"]),
+                                posAfter: cleanNum(row["倉位後"]),
+                                posBefore: cleanNum(row["倉位前"])
+                            };
+                        }).filter(d => !isNaN(d.t) && !isNaN(d.price)).sort((a, b) => a.t - b.t);
+
+                        // 2. 盯市結算引擎 (Mark-to-Market Engine)
+                        writeLog("啟動逐筆結算", "Initiating MTM Clearing Engine...", "info");
+                        
+                        let initialCapital = 5.0; // 起始資金 5 萬 (單位：萬)
+                        let currentEquity = initialCapital;
+                        let lastPrice = rawData[0].price;
+                        let lastPos = 0;
                         let lastTime = 0;
+                        
                         const equityCurve = [];
 
-                        data.forEach((trade, index) => {
-                            const tradePrice = trade.price;
-                            const change = trade.qtyChange;
-                            
-                            if (change !== 0) {
-                                // 判斷是加碼還是減碼 (實現損益)
-                                if (currentPos > 0 && change < 0) { 
-                                    // 多單減碼 -> 實現損益
-                                    const closedQty = Math.abs(change);
-                                    equity += (tradePrice - avgCost) * closedQty * 50;
-                                } else if (currentPos < 0 && change > 0) {
-                                    // 空單回補 -> 實現損益
-                                    const closedQty = Math.abs(change);
-                                    equity += (avgCost - tradePrice) * closedQty * 50;
-                                }
+                        rawData.forEach((trade, index) => {
+                            // 計算損益變動 (點數 * 50 / 10000 = 萬)
+                            // 邏輯：前一筆倉位 * (當前價格 - 前一筆價格)
+                            const pnlChange = (lastPos * (trade.price - lastPrice) * 50) / 10000;
+                            currentEquity += pnlChange;
 
-                                // 更新持倉成本
-                                const nextPos = currentPos + change;
-                                if (nextPos === 0) {
-                                    avgCost = 0;
-                                } else if (Math.sign(nextPos) === Math.sign(currentPos)) {
-                                    // 同向加碼: 更新加權成本
-                                    if (change > 0 && nextPos > 0 || change < 0 && nextPos < 0) {
-                                        avgCost = ((Math.abs(currentPos) * avgCost) + (Math.abs(change) * tradePrice)) / Math.abs(nextPos);
-                                    }
-                                } else {
-                                    // 換手或新開倉
-                                    avgCost = tradePrice;
-                                }
-                                currentPos = nextPos;
-                            }
-
-                            // 處理時間戳重複
+                            // 處理時間戳重複問題
                             let adjustedTime = trade.t;
                             if (adjustedTime <= lastTime) adjustedTime = lastTime + 1;
                             lastTime = adjustedTime;
 
-                            equityCurve.push({ time: adjustedTime, value: equity });
+                            equityCurve.push({ time: adjustedTime, value: currentEquity });
+
+                            // 更新暫存器
+                            lastPrice = trade.price;
+                            lastPos = trade.posAfter;
                         });
 
                         lineSeries.setData(equityCurve);
                         chart.timeScale().fitContent();
-                        writeLog(`>>> 結算完成。最終推估權益: ${equity.toLocaleString()}`, "ok");
+                        
+                        const finalValue = currentEquity.toFixed(2);
+                        writeLog(`結算完成。最終權益: ${finalValue} 萬`, `Clearing Done. Final Equity: ${finalValue}0k`, "ok");
 
                     } catch (err) {
-                        writeLog("引擎中斷: " + err.message, "err");
+                        writeLog("引擎致命錯誤", "Engine Fatal Error: " + err.message, "err");
+                        console.error(err);
                     }
                 }
             });
