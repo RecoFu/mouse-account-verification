@@ -18,18 +18,6 @@
 ---
 
 ## 📊 績效軌跡：2,600% 的攀升與 97% 的崩潰
-
-以下展示系統在九年間的權益演化。2020/03/18 的大回撤，標誌著舊式量化邏輯在非線性 AI 踩踏環境下的「邏輯斷頭台」。
-
-```mermaid
-graph LR
-    A[2012: ¥50K 起步] -->|長期韌性| B(2015: ¥360K)
-    B -->|範式共振| C(2017: ¥637K)
-    C -->|高維增長| D(2019: ¥1.35M 峰值)
-    D -->|3/18 AI 蜂巢崩潰| E[2020: ¥30K 結業]
-    style E fill:#f96,stroke:#333,stroke-width:4px
-
-
 ## 📊 歷史投資績效總表 (Historical Performance Artifacts)
 *註：數據已執行脫敏協議 V4.0。Broker_A = KGI, Broker_B = YuanDa。*
 
