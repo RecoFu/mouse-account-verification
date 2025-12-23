@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign System V7.6 - Final Alignment</title>
+    <title>Sovereign System V7.7 - Gap-Aware Engine</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
@@ -9,16 +9,16 @@
         #chart { width: 100%; height: 620px; border: 1px solid #30363d; margin-top: 20px; background: #000; border-radius: 8px; }
         #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 180px; overflow-y: scroll; font-size: 13px; color: #58a6ff; line-height: 1.6; }
         .ok { color: #3fb950; font-weight: bold; }
-        .info { color: #d29922; }
+        .warn { color: #f1e05a; }
         .err { color: #f85149; }
     </style>
 </head>
 <body>
     <div style="display: flex; justify-content: space-between; align-items: baseline;">
-        <h2>🏛️ 九年量化實證：虛擬結算 (V7.6)</h2>
-        <span style="font-size: 14px; color: #8b949e;">V7.6 Flagship: Mark-to-Market Engine</span>
+        <h2>🏛️ 九年量化實證：斷層校準結算 (V7.7)</h2>
+        <span style="font-size: 14px; color: #8b949e;">V7.7 Gap-Aware Mark-to-Market Engine</span>
     </div>
-    <div id="log">系統熱啟動中... System Warm Booting...<br></div>
+    <div id="log">系統初始化中... Initializing...<br></div>
     <div id="chart"></div>
 
     <script>
@@ -30,12 +30,10 @@
         }
 
         window.onload = function() {
-            writeLog("連線物理數據源", "Connecting to Data Source: data.csv", "info");
+            writeLog("連線物理數據源", "Connecting to data.csv", "info");
             
             Papa.parse("data.csv", {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
+                download: true, header: true, skipEmptyLines: true,
                 complete: function(results) {
                     try {
                         const container = document.getElementById('chart');
@@ -47,66 +45,64 @@
                             timeScale: { borderColor: '#30363d', timeVisible: true }
                         });
 
-                        const lineSeries = chart.addLineSeries({ 
-                            color: '#2962ff', 
-                            lineWidth: 3, 
-                            title: '帳戶淨值 Equity (萬)' 
-                        });
+                        const lineSeries = chart.addLineSeries({ color: '#2962ff', lineWidth: 3, title: '淨值 Equity (萬)' });
 
-                        // 1. 強健的數據清洗引擎
-                        writeLog("執行數據清洗", "Executing Data Scrubbing...");
-                        const clean = (val) => {
-                            if (!val) return NaN;
-                            let res = parseFloat(String(val).replace(/[^-0-9.]/g, ''));
-                            return isNaN(res) ? NaN : res;
+                        const clean = (v) => {
+                            let res = parseFloat(String(v).replace(/[^-0.9.]/g, ''));
+                            return isNaN(res) ? null : res;
                         };
 
-                        let rawData = results.data.map(row => {
-                            const tStr = row["交易時間"] || row["郵件日期"];
-                            if (!tStr) return null;
-                            
-                            return {
-                                t: new Date(tStr.replace(/\//g, '-')).getTime() / 1000,
-                                price: clean(row["價格"]),
-                                pos: clean(row["倉位後"])
-                            };
-                        })
-                        // 關鍵：過濾掉任何價格或倉位為空的行 (排除系統訊息)
-                        .filter(d => d !== null && !isNaN(d.t) && !isNaN(d.price) && !isNaN(d.pos))
+                        // 1. 物理層數據重組
+                        let rawData = results.data.map(row => ({
+                            t: new Date((row["交易時間"] || row["郵件日期"]).replace(/\//g, '-')).getTime() / 1000,
+                            price: clean(row["價格"]),
+                            pos: clean(row["倉位後"])
+                        }))
+                        .filter(d => d.t && d.price !== null && d.pos !== null)
                         .sort((a, b) => a.t - b.t);
 
-                        writeLog(`有效交易真跡: ${rawData.length} 筆`, `Valid Trade Artifacts: ${rawData.length} records`, "ok");
+                        writeLog(`數據載入完成: ${rawData.length} 筆`, `Data Loaded: ${rawData.length} records`, "ok");
 
-                        // 2. 盯市累計積算 (起始 5 萬)
-                        let currentEquity = 5.0; 
+                        // 2. 斷層校準引擎 (Gap-Aware Clearing)
+                        let currentEquity = 5.0; // 起始 5 萬
                         let lastPrice = rawData[0].price;
                         let lastPos = 0;
-                        let lastTime = 0;
+                        let lastTime = rawData[0].t;
                         const equityCurve = [];
 
-                        rawData.forEach((trade) => {
-                            // 損益 = 前一筆倉位 * (現價 - 前價) * 50 / 10000
-                            const pnl = (lastPos * (trade.price - lastPrice) * 50) / 10000;
-                            currentEquity += pnl;
+                        rawData.forEach((trade, index) => {
+                            // 【熔斷邏輯】：若兩筆紀錄間隔超過 24 小時 (86400秒)，不計算損益 (視為關機)
+                            const timeGap = trade.t - lastTime;
+                            
+                            if (timeGap < 86400 && index > 0) {
+                                const pnl = (lastPos * (trade.price - lastPrice) * 50) / 10000;
+                                currentEquity += pnl;
+                            } else if (timeGap >= 86400) {
+                                // 僅更新錨點，不計算大跳空的損益
+                                // writeLog(`偵測到時間斷層`, `Gap detected: ${(timeGap/86400).toFixed(1)} days`, "warn");
+                            }
 
-                            let adjustedTime = trade.t;
-                            if (adjustedTime <= lastTime) adjustedTime = lastTime + 1;
-                            lastTime = adjustedTime;
+                            // 處理時間戳重複
+                            let displayTime = trade.t;
+                            if (displayTime <= (equityCurve.length > 0 ? equityCurve[equityCurve.length-1].time : 0)) {
+                                displayTime = equityCurve[equityCurve.length-1].time + 1;
+                            }
 
-                            equityCurve.push({ time: adjustedTime, value: currentEquity });
+                            equityCurve.push({ time: displayTime, value: currentEquity });
 
+                            // 更新暫存器
                             lastPrice = trade.price;
                             lastPos = trade.pos;
+                            lastTime = trade.t;
                         });
 
                         lineSeries.setData(equityCurve);
                         chart.timeScale().fitContent();
                         
-                        writeLog(`結算完成。最終權益: ${currentEquity.toFixed(2)} 萬`, "Clearing Complete.", "ok");
+                        writeLog(`結算完成。最終權益: ${currentEquity.toFixed(2)} 萬`, `Clearing Complete. Final: ${currentEquity.toFixed(2)}0k`, "ok");
 
                     } catch (err) {
-                        writeLog("引擎故障", "Engine Malfunction: " + err.message, "err");
-                        console.error(err);
+                        writeLog("引擎故障", "Engine Error: " + err.message, "err");
                     }
                 }
             });
