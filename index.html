@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign System Recovery</title>
-    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <title>Sovereign System Alignment</title>
+    <!-- 鎖定穩定版 V3.8.0 避免 API 變動 -->
+    <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body { background-color: #0d1117; color: #c9d1d9; font-family: 'Courier New', monospace; margin: 20px; }
-        #chart { width: 100%; height: 500px; border: 1px solid #30363d; margin-top: 20px; background: #000; }
-        #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 250px; overflow-y: scroll; font-size: 13px; color: #58a6ff; }
+        #chart { width: 100%; height: 600px; border: 1px solid #30363d; margin-top: 20px; background: #000; }
+        #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 200px; overflow-y: scroll; font-size: 13px; color: #58a6ff; }
         .err { color: #f85149; }
         .ok { color: #3fb950; }
-        .info { color: #d29922; }
     </style>
 </head>
 <body>
-    <h2>🛠️ 核心引導程序 (V5.2)</h2>
-    <div id="log">正在初始化內存...<br></div>
+    <h2>🏛️ 九年量化實證：真跡線圖 (V5.5)</h2>
+    <div id="log">正在校準通訊協議...<br></div>
     <div id="chart"></div>
 
     <script>
@@ -27,71 +27,77 @@
 
         async function bootSequence() {
             try {
-                writeLog("檢查外部協議...");
-                if (typeof Papa === 'undefined') throw new Error("PapaParse 遺失");
-                if (typeof LightweightCharts === 'undefined') throw new Error("TradingView 引擎遺失");
-                writeLog("協議檢查: 正常", "ok");
-
-                // 優先執行數據定址，避開線圖初始化可能的崩潰
-                writeLog("正在請求物理鏈路: data.csv ...", "info");
+                writeLog("正在連接 data.csv ...");
                 
                 Papa.parse("data.csv", {
                     download: true,
                     header: true,
                     skipEmptyLines: true,
-                    error: function(err) {
-                        writeLog("CSV 讀取中斷: " + JSON.stringify(err), "err");
-                    },
+                    error: (err) => writeLog("數據加載失敗: " + err, "err"),
                     complete: function(results) {
-                        writeLog("數據鏈路建立成功，讀取位元: " + results.data.length, "ok");
+                        writeLog("數據鏈路就緒，筆數: " + results.data.length, "ok");
                         
                         try {
                             const headers = results.meta.fields;
-                            writeLog("檢測標頭: " + headers.join(" | "), "info");
-
-                            // 初始化線圖引擎
-                            writeLog("啟動繪圖引擎儀表板...");
                             const container = document.getElementById('chart');
-                            const chart = LightweightCharts.createChart(container, {
-                                layout: { background: { color: '#0d1117' }, textColor: '#c9d1d9' },
-                                grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
-                                width: container.clientWidth,
-                                height: 500,
-                            });
                             
-                            const lineSeries = chart.addLineSeries({ color: '#58a6ff', lineWidth: 2 });
-                            writeLog("引擎冷啟動成功", "ok");
+                            // 初始化穩定版引擎
+                            const chart = LightweightCharts.createChart(container, {
+                                layout: { backgroundColor: '#0d1117', textColor: '#c9d1d9' },
+                                grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
+                                priceScale: { borderColor: '#30363d' },
+                                timeScale: { borderColor: '#30363d', timeVisible: true }
+                            });
 
-                            // 數據清洗邏輯
+                            const lineSeries = chart.addLineSeries({
+                                color: '#58a6ff',
+                                lineWidth: 2,
+                                priceLineVisible: false
+                            });
+
+                            // 數據對位與清洗
                             let lastTime = 0;
                             const processedData = results.data.map((row, index) => {
-                                const timeKey = headers.find(h => h.includes("時間") || h.includes("日期"));
-                                const valueKey = headers.find(h => h.includes("倉位後"));
-                                if (!row[timeKey] || row[valueKey] === undefined) return null;
+                                // 相容您檢測到的標頭: "交易時間" 與 "倉位後"
+                                const timeVal = row["交易時間"] || row["郵件日期"];
+                                let equityVal = row["倉位後"];
 
-                                let t = new Date(row[timeKey]).getTime() / 1000;
-                                let v = parseFloat(String(row[valueKey]).replace(/,/g, ''));
-                                if (isNaN(t) || isNaN(v)) return null;
+                                if (!timeVal || equityVal === undefined) return null;
 
-                                if (t <= lastTime) { t = lastTime + 1; }
-                                lastTime = t;
-                                return { time: t, value: v };
-                            }).filter(d => d !== null);
+                                // 移除數值中的逗號並轉換
+                                const val = parseFloat(String(equityVal).replace(/,/g, ''));
+                                
+                                // 解析日期 (格式 2020/03/18 08:48:59)
+                                const t = new Date(timeVal).getTime() / 1000;
+                                
+                                if (isNaN(t) || isNaN(val)) return null;
+
+                                // 修正時間戳重複問題 (TradingView 限制)
+                                let adjustedTime = t;
+                                if (adjustedTime <= lastTime) {
+                                    adjustedTime = lastTime + 1;
+                                }
+                                lastTime = adjustedTime;
+
+                                return { time: adjustedTime, value: val };
+                            }).filter(d => d !== null).sort((a, b) => a.time - b.time);
 
                             if (processedData.length > 0) {
                                 lineSeries.setData(processedData);
                                 chart.timeScale().fitContent();
-                                writeLog(">>> 真跡渲染完成。系統已上線。", "ok");
+                                writeLog(">>> 協議對位成功，真跡已渲染。", "ok");
                             } else {
-                                writeLog("數據解析失敗: 內容不符合 4M 規範", "err");
+                                writeLog("數據校準錯誤：未能匹配欄位內容", "err");
                             }
+
                         } catch (innerErr) {
-                            writeLog("線圖引擎崩潰: " + innerErr.message, "err");
+                            writeLog("繪圖引擎異常: " + innerErr.message, "err");
+                            console.error(innerErr);
                         }
                     }
                 });
             } catch (globalErr) {
-                writeLog("系統引導失敗: " + globalErr.message, "err");
+                writeLog("引導失敗: " + globalErr.message, "err");
             }
         }
 
