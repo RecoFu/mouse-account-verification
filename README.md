@@ -1,46 +1,51 @@
 # 🏛️ Mouse Account Verification PoW (2012-2020)
-> **"The Burial of Linear Civilization & The Birth of AI-Governance"**
-
-這不是一份獲利報告，而是一場為期九年的**系統生存實驗（System Resilience Experiment）**。本專案透過物理級的數據紀錄，實證了量化交易系統從「線性文明」跨越至「AI 蜂巢思維」時代的限界與崩潰。
-
+![Equity Curve](chart.png)
+### *Empirical Analysis of High-Resilience Autonomous Trading Systems*
+### **「線性文明之葬禮與 AI 治理紀元之開端」**
+> **"It is not a mere profit report; it is a nine-year longitudinal study in system survival."**
+> 這不是一份獲利報告，而是一場為期九年的**系統生存實驗（System Resilience Experiment）**。本專案透過物理級數據紀錄，實證了量化交易系統從「線性範式」跨越至「非線性 AI 湧現（AI Hive-Mind）」時代的效能極限與結構性崩潰。
 ---
-
-## 💎 核心真跡：數據主權 (Data Sovereignty)
-
-本專案之核心價值在於其**「不可否認性」**。每一筆交易並非事後擬合，而是由 Google 伺服器時間戳（Gmail Timestamp）鎖定的真實歷史。
-
-- **總交易筆數**: 1,539 筆 (完全脫敏，保留數值真跡)
-- **時間跨度**: 2,012 - 2,020 (九年無干涉運行)
-- **數據完整性**: 
-  - **Merkle Root Hash**: `0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a`
-  - **驗證協議**: SHA-256 數位指紋，杜絕任何位元級別的篡改。
-
+## 💎 數據主權與不可否認性 (Data Sovereignty & Non-repudiation)
+本專案的核心價值在於其**「確定的真實性」**。每一筆指令流均由第三方授信時間戳（Gmail Server Timestamp）鎖定，具備法律取證等級的不可否認性。
+*   **Deterministic Integrity (確定性完整性)**: 
+    *   **2,013 Records**: 全量交易日誌（Total Transaction Logs），包含 2020/03/18 黑天鵝事件之微觀動態。
+    *   **Log Sanctum**: 所有交易記錄經由自動化系統發送至 Gmail，由 Google 伺服器保證時間戳精度，杜絕任何事後擬合（Overfitting）之可能性。
+*   **Cryptographic Proof (加密證明)**:
+    *   **Merkle Root Hash**: `0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a`
+    *   **Verification Protocol**: 採用 SHA-256 數位指紋與 Merkle Tree 結構，確保九年職涯真跡免於位元級別的篡改。
 ---
-
-## 📊 績效軌跡：2,600% 的攀升與 97% 的崩潰
 ## 📊 歷史投資績效總表 (Historical Performance Artifacts)
-*註：數據已執行脫敏協議 V4.0。Broker_A = KGI, Broker_B = YuanDa。*
-
-| 年度 | 帳戶 | 筆數 | 錯誤率 | 期初權益 | 本年入金 | 期末權益 | 年度報酬 | 累計報酬 | 零知識證明 (Hash) |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 2012 | Broker_B | 0 | 100% | 0 | 50K | 50K | 0.00% | 0.00% | `4da1bd...` |
-| 2013 | Broker_B | 42 | 2.33% | 50K | 0 | 80K | 60.00% | 60.00% | `692c11...` |
-| 2014 | Broker_B | 210 | 0.00% | 80K | 0 | 150K | 87.50% | 200.00% | `a66f88...` |
-| 2015 | Broker_B | 391 | 0.00% | 150K | 0 | 360K | 140.0% | **620.0%** | `b6034e...` |
-| 2016 | Broker_A | 405 | 0.00% | 360K | 0 | 315K | -12.3% | 530.9% | `524051...` |
-| 2017 | Broker_A | 23 | 89.6% | 315K | 0 | 637K | **102.1%**| 1175.4% | `53bdb6...` |
-| 2018 | Broker_A | 162 | 40.9% | 637K | 360K | 997K | -0.01% | 143.3% | `7033f4...` |
-| 2019 | Broker_A | 194 | 33.1% | 997K | 0 | 1.35M | 35.31% | **229.2%** | `ed3236...` |
-| 2020 | Broker_A | 112 | 33.7% | 1.35M| 0 | 30K | **-97.7%**| 畢業 | `3/18 Crash`|
-
+*Audit Protocol: Anonymization V4.0 Applied. Broker_A (KGI), Broker_B (YuanDa).*
+| 年度 (Year) | 帳戶 (Entity) | 筆數 (Trades) | 錯誤率 (Err %) | 期末權益 (Ending) | 年度報酬 (RoI) | 累計報酬 (Cumul.) | 狀態 (Status) |
+| :--- | :--- | :---: | :---: | :--- | :---: | :---: | :--- |
+| **2012** | Broker_B | 0 | 100% | ¥ 50,000 | 0.00% | 0.00% | Bootstrap |
+| **2013** | Broker_B | 42 | 2.33% | ¥ 80,000 | 60.00% | 60.00% | Stable |
+| **2014** | Broker_B | 210 | 0.00% | ¥ 150,000 | 87.50% | 200.00% | Optimized |
+| **2015** | Broker_B | 391 | 0.00% | ¥ 360,000 | 140.0% | **620.0%** | Alpha Max |
+| **2016** | Broker_A | 405 | 0.00% | ¥ 315,493 | -12.3% | 530.9% | Drawdown |
+| **2017** | Broker_A | 23 | 89.6% | ¥ 637,711 | **102.1%**| 1175.4% | Recovery |
+| **2018** | Broker_A | 162 | 40.9% | ¥ 997,678 | -0.01% | 143.3% | Net Liquidity |
+| **2019** | Broker_A | 194 | 33.1% | ¥ 1,350,000 | 35.31% | **229.2%** | Peak |
+| **2020** | Broker_A | 112 | 33.7% | ¥ 30,000 | **-97.7%**| **畢業 Ceremony** | Black Swan |
 ---
-
 ## 📈 視覺化真跡 (Interactive Visualization)
-我們透過 TradingView 引擎將 1,539 筆交易紀錄映射為物理曲線。
-
-👉 **[📊 點此查看：全量數據互動線圖 (GitHub Pages)](https://RecoFu.github.io/mouse-account-verification/)**
-
+我們透過 TradingView 引擎將 **2,013 筆高頻數據** 映射為物理曲線，揭示了系統在 2020 年 3 月 18 日從最高峰值（1.8M 瞬間共振）到最後清算（30K）的精確路徑。
+👉 **[📊 點此查看：全量數據互動線圖 (Interactive Equity Curve)](https://RecoFu.github.io/mouse-account-verification/)**
 ---
-
-## 🛡️ 數據完整性驗證 (Data Integrity)
-本專案採用 **Merkle Tree** 結構，確保 40 年職涯真跡不被位元偏移所篡改。
+## 🛡️ 系統診斷與核心技術 (Technical Stack & Methodology)
+本專案不僅是交易紀錄，更是對底層系統工程與反脆弱架構的極致實踐。
+*   **The "Kitchen God" Protocol (灶神協議)**:
+    不寄望於不可控的運氣（不拜乖乖），而是基於**物理級診斷**。從 MBR 啟動引導至 6 層電路板 PCI 協議分析，將「人、機、法、環」整合為統一的防禦場域。
+*   **Mark-to-Market (MTM) Real-time Clearing**:
+    透過 **V9.5 數據縫合引擎** 實現了對九年數據的「逐筆盯市」還原。即便在極端時間斷層（Time Gaps）下，仍能透過**時間熔斷器（Time Circuit Breaker）**校準物理偏移，確保回撤計算符合真實財務邏輯。
+*   **Failure Analysis (失效分析)**:
+    實證了經典量化邏輯在「AI 蜂巢」高頻踩踏下的生存邊界。2020/03/18 的回撤證明了：當黑天鵝降臨時，卓越的系統應致力於**「紀錄毀滅」**與**「精確停止」**，而非無謂的預測。
+---
+## 🏛️ 構建者定論 (Architect's Conclusion)
+> **"I am not an oracle of the market; I am the architect who ensures the system records with precision and ceases with grace when the black swan arrives."**
+>
+> 2012 年以 5 萬起始的小白鼠帳戶死於 2020/03/18，這並非失敗，而是**程序化理性的精確執行**。它宣告了線性範式的終結，並為基於 AI 治理與反脆弱架構的新交易紀元奠定了數據基石。
+---
+**Author**: [Reco Fu]  
+**Credentials**: 40 Years System Integrity | Zero Data Loss | Zero Ransomware Payments  
+**Verification Status**: **[100% Cryptographically Audited]**
