@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign Timeline Alignment</title>
+    <title>Sovereign Equity Curve Alignment</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
@@ -13,7 +13,7 @@
     </style>
 </head>
 <body>
-    <h2>🏛️ 九年量化實證：真跡線圖 (V6.0)</h2>
+    <h2>🏛️ 九年量化實證：淨值真跡線圖 (V6.5)</h2>
     <div id="log">系統重新引導中...<br></div>
     <div id="chart"></div>
 
@@ -39,53 +39,56 @@
                         const chart = LightweightCharts.createChart(container, {
                             layout: { backgroundColor: '#0d1117', textColor: '#d1d4dc' },
                             grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
+                            priceScale: { autoScale: true, borderColor: '#30363d' },
                             timeScale: { borderColor: '#30363d', timeVisible: true }
                         });
 
                         const lineSeries = chart.addLineSeries({
-                            color: '#58a6ff',
-                            lineWidth: 2,
-                            priceLineVisible: false
+                            color: '#2962ff',
+                            lineWidth: 3,
+                            priceLineVisible: true,
+                            title: '帳戶淨值 (Net Equity)'
                         });
 
-                        // Step 1: 原始解析與初步清洗
+                        // Step 1: 解析並進行全局物理排序
                         let rawParsed = results.data.map(row => {
                             const timeVal = row["交易時間"] || row["郵件日期"];
-                            const equityVal = row["倉位後"];
-                            if (!timeVal || equityVal === undefined) return null;
+                            const pnlVal = row["pnl"]; // 使用損益欄位
+                            if (!timeVal) return null;
 
-                            // 處理數值
-                            const val = parseFloat(String(equityVal).replace(/,/g, ''));
-                            // 強健的時間解析 (處理斜線或橫線)
+                            const pnl = parseFloat(String(pnlVal).replace(/,/g, '')) || 0;
                             const t = new Date(timeVal.replace(/\//g, '-')).getTime() / 1000;
                             
-                            if (isNaN(t) || isNaN(val)) return null;
-                            return { time: t, value: val };
-                        }).filter(d => d !== null);
+                            return { time: t, pnl: pnl };
+                        }).filter(d => d !== null && !isNaN(d.time));
 
-                        // Step 2: 全局物理排序 (解決倒序問題)
-                        writeLog("執行全局時序重組...", "info");
                         rawParsed.sort((a, b) => a.time - b.time);
 
-                        // Step 3: 微觀衝突校正 (處理同一秒多筆交易)
-                        writeLog("校正微觀衝突與重複位元...", "info");
+                        // Step 2: 累計積算 (Initial Capital = 50,000)
+                        writeLog("執行累計損益積算 (Initial: 50,000)...", "info");
+                        
+                        let currentEquity = 50000;
                         let lastTime = 0;
-                        const finalData = rawParsed.map((d, index) => {
+                        const equityData = [];
+
+                        rawParsed.forEach((d, index) => {
+                            currentEquity += d.pnl; // 每一筆 PnL 累加到淨值上
+                            
                             let adjustedTime = d.time;
                             if (adjustedTime <= lastTime) {
-                                adjustedTime = lastTime + 1; // 每一筆至少間隔一秒
+                                adjustedTime = lastTime + 1;
                             }
                             lastTime = adjustedTime;
-                            return { time: adjustedTime, value: d.value };
+
+                            equityData.push({ time: adjustedTime, value: currentEquity });
                         });
 
-                        if (finalData.length > 0) {
-                            lineSeries.setData(finalData);
+                        if (equityData.length > 0) {
+                            lineSeries.setData(equityData);
                             chart.timeScale().fitContent();
                             
-                            const startYear = new Date(finalData[0].time * 1000).getFullYear();
-                            const endYear = new Date(finalData[finalData.length - 1].time * 1000).getFullYear();
-                            writeLog(`>>> 真跡已展開：時空跨度 ${startYear} - ${endYear}`, "ok");
+                            const peak = Math.max(...equityData.map(d => d.value));
+                            writeLog(`>>> 淨值曲線已生成。峰值: ${peak.toLocaleString()}`, "ok");
                         }
 
                     } catch (err) {
