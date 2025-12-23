@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign System V7.7 - Gap-Aware Engine</title>
+    <title>Sovereign Logic V8.0 - Full Spectrum Alignment</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
@@ -15,10 +15,10 @@
 </head>
 <body>
     <div style="display: flex; justify-content: space-between; align-items: baseline;">
-        <h2>🏛️ 九年量化實證：斷層校準結算 (V7.7)</h2>
-        <span style="font-size: 14px; color: #8b949e;">V7.7 Gap-Aware Mark-to-Market Engine</span>
+        <h2>🏛️ 九年量化實證：全量真跡恢復 (V8.0)</h2>
+        <span style="font-size: 14px; color: #8b949e;">V8.0 Full-Spectrum MTM Engine</span>
     </div>
-    <div id="log">系統初始化中... Initializing...<br></div>
+    <div id="log">正在重啟引導程序... Booting...<br></div>
     <div id="chart"></div>
 
     <script>
@@ -30,7 +30,7 @@
         }
 
         window.onload = function() {
-            writeLog("連線物理數據源", "Connecting to data.csv", "info");
+            writeLog("執行全量掃描", "Scanning Full Dataset: data.csv", "info");
             
             Papa.parse("data.csv", {
                 download: true, header: true, skipEmptyLines: true,
@@ -47,42 +47,51 @@
 
                         const lineSeries = chart.addLineSeries({ color: '#2962ff', lineWidth: 3, title: '淨值 Equity (萬)' });
 
-                        const clean = (v) => {
+                        const cleanNum = (v) => {
+                            if (v === undefined || v === null || v === "") return NaN;
                             let res = parseFloat(String(v).replace(/[^-0.9.]/g, ''));
-                            return isNaN(res) ? null : res;
+                            return isNaN(res) ? NaN : res;
                         };
 
-                        // 1. 物理層數據重組
-                        let rawData = results.data.map(row => ({
-                            t: new Date((row["交易時間"] || row["郵件日期"]).replace(/\//g, '-')).getTime() / 1000,
-                            price: clean(row["價格"]),
-                            pos: clean(row["倉位後"])
-                        }))
-                        .filter(d => d.t && d.price !== null && d.pos !== null)
+                        // 1. 寬鬆解析：只要有時間與價格/倉位其一就保留
+                        let rawData = results.data.map(row => {
+                            const tStr = row["交易時間"] || row["郵件日期"];
+                            return {
+                                t: tStr ? new Date(tStr.replace(/\//g, '-')).getTime() / 1000 : null,
+                                price: cleanNum(row["價格"]),
+                                pos: cleanNum(row["倉位後"])
+                            };
+                        })
+                        .filter(d => d.t !== null && (!isNaN(d.price) || !isNaN(d.pos)))
                         .sort((a, b) => a.t - b.t);
 
-                        writeLog(`數據載入完成: ${rawData.length} 筆`, `Data Loaded: ${rawData.length} records`, "ok");
+                        writeLog(`真跡還原成功: ${rawData.length} 筆`, `Artifacts Restored: ${rawData.length} records`, "ok");
 
-                        // 2. 斷層校準引擎 (Gap-Aware Clearing)
+                        // 2. 專業盯市引擎 (含入金修正)
                         let currentEquity = 5.0; // 起始 5 萬
-                        let lastPrice = rawData[0].price;
+                        let lastPrice = NaN;
                         let lastPos = 0;
-                        let lastTime = rawData[0].t;
+                        let lastTime = 0;
                         const equityCurve = [];
 
                         rawData.forEach((trade, index) => {
-                            // 【熔斷邏輯】：若兩筆紀錄間隔超過 24 小時 (86400秒)，不計算損益 (視為關機)
-                            const timeGap = trade.t - lastTime;
+                            // 自動補全價格：若當前筆無價格，使用前一筆
+                            if (isNaN(trade.price)) trade.price = lastPrice;
                             
-                            if (timeGap < 86400 && index > 0) {
-                                const pnl = (lastPos * (trade.price - lastPrice) * 50) / 10000;
-                                currentEquity += pnl;
-                            } else if (timeGap >= 86400) {
-                                // 僅更新錨點，不計算大跳空的損益
-                                // writeLog(`偵測到時間斷層`, `Gap detected: ${(timeGap/86400).toFixed(1)} days`, "warn");
+                            // 2018 年入金校準 (根據您的年度表，2018 追加入金 36 萬)
+                            const tradeDate = new Date(trade.t * 1000);
+                            if (tradeDate.getFullYear() === 2018 && tradeDate.getMonth() === 0 && tradeDate.getDate() === 1) {
+                                currentEquity += 36.0;
+                                writeLog("執行 2018 入金校準", "Applying 2018 Deposit: +360k", "info");
                             }
 
-                            // 處理時間戳重複
+                            // 損益計算 (若為第一筆或價格無效則跳過)
+                            if (!isNaN(lastPrice) && !isNaN(trade.price)) {
+                                // 損益 = 前筆倉位 * (現價 - 前價) * 50 / 10000
+                                const pnl = (lastPos * (trade.price - lastPrice) * 50) / 10000;
+                                currentEquity += pnl;
+                            }
+
                             let displayTime = trade.t;
                             if (displayTime <= (equityCurve.length > 0 ? equityCurve[equityCurve.length-1].time : 0)) {
                                 displayTime = equityCurve[equityCurve.length-1].time + 1;
@@ -91,18 +100,17 @@
                             equityCurve.push({ time: displayTime, value: currentEquity });
 
                             // 更新暫存器
-                            lastPrice = trade.price;
-                            lastPos = trade.pos;
-                            lastTime = trade.t;
+                            if (!isNaN(trade.price)) lastPrice = trade.price;
+                            if (!isNaN(trade.pos)) lastPos = trade.pos;
                         });
 
                         lineSeries.setData(equityCurve);
                         chart.timeScale().fitContent();
                         
-                        writeLog(`結算完成。最終權益: ${currentEquity.toFixed(2)} 萬`, `Clearing Complete. Final: ${currentEquity.toFixed(2)}0k`, "ok");
+                        writeLog(`畢業典禮核算完畢。最終: ${currentEquity.toFixed(2)} 萬`, `Audit Complete. Final: ${currentEquity.toFixed(2)}0k`, "ok");
 
                     } catch (err) {
-                        writeLog("引擎故障", "Engine Error: " + err.message, "err");
+                        writeLog("引導中斷", "Boot Aborted: " + err.message, "err");
                     }
                 }
             });
