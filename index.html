@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sovereign Data Adaptive Alignment</title>
+    <title>Sovereign Virtual Clearing Engine</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
@@ -9,12 +9,12 @@
         #chart { width: 100%; height: 600px; border: 1px solid #30363d; margin-top: 20px; background: #000; }
         #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 180px; overflow-y: scroll; font-size: 13px; color: #58a6ff; }
         .ok { color: #3fb950; }
-        .warn { color: #d29922; font-weight: bold; }
+        .info { color: #d29922; }
     </style>
 </head>
 <body>
-    <h2>🏛️ 九年量化實證：真跡校準 (V6.6)</h2>
-    <div id="log">系統偵測中...<br></div>
+    <h2>🏛️ 九年量化實證：虛擬結算真跡 (V7.0)</h2>
+    <div id="log">啟動虛擬結算引擎...<br></div>
     <div id="chart"></div>
 
     <script>
@@ -25,94 +25,86 @@
         }
 
         window.onload = function() {
-            writeLog("正在掃描數據源: data.csv ...", "info");
-            
             Papa.parse("data.csv", {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
                 complete: function(results) {
                     try {
-                        const headers = results.meta.fields;
-                        writeLog("檢測標頭: " + headers.join(" | "), "info");
+                        const container = document.getElementById('chart');
+                        const chart = LightweightCharts.createChart(container, {
+                            layout: { backgroundColor: '#0d1117', textColor: '#d1d4dc' },
+                            grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
+                            priceScale: { autoScale: true },
+                            timeScale: { borderColor: '#30363d', timeVisible: true }
+                        });
 
-                        // 尋找損益欄位 (相容多種標頭名稱)
-                        const pnlKey = headers.find(h => 
-                            h.toLowerCase().includes("pnl") || 
-                            h.includes("損益") || 
-                            h.includes("收益") ||
-                            h.includes("交易損益")
-                        );
+                        const lineSeries = chart.addLineSeries({ color: '#2962ff', lineWidth: 3, title: '推估淨值 (Equity)' });
 
-                        if (!pnlKey) {
-                            writeLog("⚠️ 警告: 在 CSV 中找不到『損益』欄位！將改為顯示『倉位動態』。", "warn");
-                            drawPositionMode(results.data, headers);
-                        } else {
-                            writeLog(`成功對位損益欄位: 【${pnlKey}】`, "ok");
-                            drawEquityMode(results.data, pnlKey, headers);
-                        }
+                        // 1. 物理排序
+                        let data = results.data.map(row => ({
+                            t: new Date((row["交易時間"] || row["郵件日期"]).replace(/\//g, '-')).getTime() / 1000,
+                            price: parseFloat(row["價格"]),
+                            qtyChange: parseFloat(row["數量"]),
+                            posAfter: parseFloat(row["倉位後"])
+                        })).filter(d => !isNaN(d.t) && !isNaN(d.price)).sort((a, b) => a.t - b.t);
+
+                        // 2. 虛擬結算邏輯
+                        writeLog("執行虛擬結算中 (小型台指 1點=50元)...", "info");
+                        let equity = 1350000; // 2020 起始資金
+                        let avgCost = 0;
+                        let currentPos = 0;
+                        let lastTime = 0;
+                        const equityCurve = [];
+
+                        data.forEach((trade, index) => {
+                            const tradePrice = trade.price;
+                            const change = trade.qtyChange;
+                            
+                            if (change !== 0) {
+                                // 判斷是加碼還是減碼 (實現損益)
+                                if (currentPos > 0 && change < 0) { 
+                                    // 多單減碼 -> 實現損益
+                                    const closedQty = Math.abs(change);
+                                    equity += (tradePrice - avgCost) * closedQty * 50;
+                                } else if (currentPos < 0 && change > 0) {
+                                    // 空單回補 -> 實現損益
+                                    const closedQty = Math.abs(change);
+                                    equity += (avgCost - tradePrice) * closedQty * 50;
+                                }
+
+                                // 更新持倉成本
+                                const nextPos = currentPos + change;
+                                if (nextPos === 0) {
+                                    avgCost = 0;
+                                } else if (Math.sign(nextPos) === Math.sign(currentPos)) {
+                                    // 同向加碼: 更新加權成本
+                                    if (change > 0 && nextPos > 0 || change < 0 && nextPos < 0) {
+                                        avgCost = ((Math.abs(currentPos) * avgCost) + (Math.abs(change) * tradePrice)) / Math.abs(nextPos);
+                                    }
+                                } else {
+                                    // 換手或新開倉
+                                    avgCost = tradePrice;
+                                }
+                                currentPos = nextPos;
+                            }
+
+                            // 處理時間戳重複
+                            let adjustedTime = trade.t;
+                            if (adjustedTime <= lastTime) adjustedTime = lastTime + 1;
+                            lastTime = adjustedTime;
+
+                            equityCurve.push({ time: adjustedTime, value: equity });
+                        });
+
+                        lineSeries.setData(equityCurve);
+                        chart.timeScale().fitContent();
+                        writeLog(`>>> 結算完成。最終推估權益: ${equity.toLocaleString()}`, "ok");
 
                     } catch (err) {
-                        writeLog("引導失敗: " + err.message, "err");
+                        writeLog("引擎中斷: " + err.message, "err");
                     }
                 }
-            });
-        };
-
-        function drawEquityMode(data, pnlKey, headers) {
-            const chart = createBaseChart();
-            const lineSeries = chart.addLineSeries({ color: '#2962ff', lineWidth: 3, title: '淨值 (Equity)' });
-            
-            let currentEquity = 50000;
-            let lastTime = 0;
-            const timeKey = headers.find(h => h.includes("時間") || h.includes("日期"));
-
-            const equityData = data.map(row => {
-                const t = new Date(row[timeKey].replace(/\//g, '-')).getTime() / 1000;
-                const pnl = parseFloat(String(row[pnlKey]).replace(/,/g, '')) || 0;
-                return { t, pnl };
-            }).sort((a, b) => a.t - b.t).map((d, i) => {
-                currentEquity += d.pnl;
-                let adjustedTime = d.t;
-                if (adjustedTime <= lastTime) adjustedTime = lastTime + 1;
-                lastTime = adjustedTime;
-                return { time: adjustedTime, value: currentEquity };
-            });
-
-            lineSeries.setData(equityData);
-            chart.timeScale().fitContent();
-            writeLog(`>>> 淨值曲線已生成。`, "ok");
-        }
-
-        function drawPositionMode(data, headers) {
-            const chart = createBaseChart();
-            const lineSeries = chart.addLineSeries({ color: '#f96', lineWidth: 2, title: '倉位 (Position)' });
-            
-            const timeKey = headers.find(h => h.includes("時間") || h.includes("日期"));
-            const posKey = headers.find(h => h.includes("倉位後"));
-
-            let lastTime = 0;
-            const posData = data.map(row => {
-                const t = new Date(row[timeKey].replace(/\//g, '-')).getTime() / 1000;
-                const val = parseFloat(row[posKey]) || 0;
-                return { t, val };
-            }).sort((a, b) => a.t - b.t).map(d => {
-                let adjustedTime = d.t;
-                if (adjustedTime <= lastTime) adjustedTime = lastTime + 1;
-                lastTime = adjustedTime;
-                return { time: adjustedTime, value: d.val };
-            });
-
-            lineSeries.setData(posData);
-            chart.timeScale().fitContent();
-            writeLog(`>>> 已回退至倉位模式呈現。`, "info");
-        }
-
-        function createBaseChart() {
-            return LightweightCharts.createChart(document.getElementById('chart'), {
-                layout: { backgroundColor: '#0d1117', textColor: '#d1d4dc' },
-                grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
-                timeScale: { borderColor: '#30363d', timeVisible: true }
             });
         }
     </script>
