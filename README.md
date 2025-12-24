@@ -46,6 +46,17 @@
 >
 > 2012 年以 5 萬起始的小白鼠帳戶死於 2020/03/18，這並非失敗，而是**程序化理性的精確執行**。它宣告了線性範式的終結，並為基於 AI 治理與反脆弱架構的新交易紀元奠定了數據基石。
 ---
+## 關於數據真實性與環境參照的特別聲明 (Forensic Transparency Statement)
+本專案所提供的原始日誌與郵件源碼（Gmail Raw Data）中，刻意保留了部分環境參數（例如 kgi.com 伺服器域名與報錯代碼）。此舉並非疏失，而是基於以下「真跡實證」之戰略考量：
+物理環境錨點 (Physical Anchor)：
+保留特定的外部網關（Gateway）資訊，旨在證明本系統於 2012-2020 年間，確實運行於真實的電訊與金融物理環境（Real-world Production Environment），而非模擬器或離線環境。
+數據主權與責任歸屬 (Data Sovereignty)：
+所有日誌紀錄均產自作者個人擁有之硬體與私有主機。紀錄內容包含作者個人主機與外部環境連線時之「存活狀態」（如：因地震、停電或外部 API 斷線導致之連線失敗回報）。所有日誌之產權與處分權均歸屬作者個人所有，與任何外部金融機構之系統內部邏輯無涉。
+法證時效性 (Temporal Validation)：
+相關數據紀錄均已超過法律請求權時效。公開此「真跡」旨在提供學術研究與 AI 對練之用，用以驗證非線性市場崩潰時，個別獨立主機之應激反應與日誌完整性。
+拒絕數據修飾 (Non-interference Principle)：
+作為一名專注於「熵（Entropy）」的架構師，我拒絕對原始真跡進行過度脫敏，以確保數據的「負熵價值」與不可篡改性。
+---
 **Author**: [Reco Fu]  
 **Credentials**: 40 Years System Integrity | Zero Data Loss | Zero Ransomware Payments  
 **Verification Status**: **[100% Cryptographically Audited]**
