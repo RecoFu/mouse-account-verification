@@ -65,11 +65,11 @@
 - **Sovereign Signature**: `[41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B|2497D2C57606F0A3E44402D98BBB8213B6F2DC6175E0B8A016EBC62F19C81A67]`
 
 ### 2. 邏輯層校驗 (Logical Integrity)
-- **Merkle Root**: `0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a`
+- **Merkle Root**: `9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557`
 - **Total Records**: `2,013`
 
 ### 3. 身分權利鎖定 (Identity Lock)
-- **Identity Signature**: `5cc35e5b274f4b98b4bdd4b22f0133b553c4e5009dc52fa38f9f0de67d375756`
+- **Identity Signature**: `a2a41fa07b1b82c18f373b499910779a46b85387180153f9e2a1bc4c13d78373`
 - **Status**: **Authenticated by Sovereign_0x**
 
 ---
