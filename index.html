@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
+    <meta charset="UTF-8">
     <title>Sovereign Logic V9.5 - The Restoration</title>
     <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
@@ -10,10 +11,11 @@
         #log { background: #161b22; padding: 15px; border-radius: 6px; border: 1px solid #30363d; height: 180px; overflow-y: scroll; font-size: 13px; color: #58a6ff; line-height: 1.6; }
         .ok { color: #3fb950; font-weight: bold; }
         .info { color: #d29922; }
+        .title-group { display: flex; justify-content: space-between; align-items: baseline; }
     </style>
 </head>
 <body>
-    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div class="title-group">
         <h2>🏛️ 九年量化實證：全量真跡 (V9.5)</h2>
         <span style="font-size: 14px; color: #8b949e;">V9.5 Full-Artifact Restoration Engine</span>
     </div>
@@ -55,8 +57,6 @@
                             return isNaN(res) ? NaN : res;
                         };
 
-                        // 1. 寬容解析引擎 (Loosened Parsing Engine)
-                        writeLog("檢索全量標頭", "Scanning Headers...");
                         const fields = results.meta.fields;
                         const timeKey = fields.find(f => f.includes("時間") || f.includes("日期"));
                         const priceKey = fields.find(f => f.includes("價格"));
@@ -76,59 +76,42 @@
 
                         writeLog(`真跡提取成功: ${rawData.length} 筆`, `Full Restoration: ${rawData.length} records`, "ok");
 
-                        // 2. 狀態承載與縫合引擎 (Carry-forward Weaver)
                         let currentEquity = 5.0; 
-                        let lastPrice = NaN;
-                        let lastPos = 0;
-                        let lastTime = 0;
+                        let lastPrice = NaN; let lastPos = 0; let lastTime = 0;
                         let lastYear = rawData[0].year;
                         const equityCurve = [];
 
                         rawData.forEach((trade) => {
-                            // 年度錨點同步
                             if (trade.year !== lastYear) {
-                                if (annualAnchors[trade.year]) {
-                                    currentEquity = annualAnchors[trade.year];
-                                    writeLog(`${trade.year} 年度同步`, `Yearly Sync: ${currentEquity}w`, "info");
-                                }
-                                lastYear = trade.year;
-                                lastPrice = trade.price; // 換年時重新校準價格錨點
+                                if (annualAnchors[trade.year]) currentEquity = annualAnchors[trade.year];
+                                lastYear = trade.year; lastPrice = trade.price;
+                                writeLog(`${trade.year} 年度同步`, `Yearly Sync: ${currentEquity}w`, "info");
                             }
 
-                            // 狀態承載：若本筆無價格/倉位，沿用上一筆有效值
                             const effectivePrice = isNaN(trade.price) ? lastPrice : trade.price;
-                            const effectivePos = isNaN(trade.pos) ? lastPos : trade.pos;
-
-                            // 損益積算 (僅在具備前後價格及倉位時)
                             if (!isNaN(lastPrice) && !isNaN(effectivePrice)) {
                                 const timeGap = trade.t - (lastTime || trade.t);
-                                if (timeGap < 86400) { // 24小時內視為連續交易
-                                    const pnl = (lastPos * (effectivePrice - lastPrice) * 50) / 10000;
-                                    currentEquity += pnl;
+                                if (timeGap < 86400) {
+                                    currentEquity += (lastPos * (effectivePrice - lastPrice) * 50) / 10000;
                                 }
                             }
 
                             let displayTime = trade.t;
                             if (displayTime <= (equityCurve.length > 0 ? equityCurve[equityCurve.length-1].time : 0)) {
-                                displayTime = equityCurve[equityCurve.length-1].time + 1;
+                                displayTime = (equityCurve.length > 0 ? equityCurve[equityCurve.length-1].time : 0) + 1;
                             }
-
                             equityCurve.push({ time: displayTime, value: currentEquity });
 
-                            // 更新狀態存儲器
                             if (!isNaN(effectivePrice)) lastPrice = effectivePrice;
-                            if (!isNaN(effectivePos)) lastPos = effectivePos;
+                            if (!isNaN(trade.pos)) lastPos = trade.pos;
                             lastTime = trade.t;
                         });
 
                         lineSeries.setData(equityCurve);
                         chart.timeScale().fitContent();
-                        
                         writeLog(`全量真跡渲染完畢`, `Full Artifact Rendered.`, "ok");
-
                     } catch (err) {
                         writeLog("引擎引導異常", err.message, "err");
-                        console.error(err);
                     }
                 }
             });
