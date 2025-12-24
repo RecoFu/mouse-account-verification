@@ -18,7 +18,7 @@
     *   **Log Sanctum**: 所有交易記錄經由自動化系統發送至 Gmail，由 Google 伺服器保證時間戳精度。
 *   **Cryptographic Proof**:
     *   **Merkle Root**: `0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a`
-    *   **Identity Signature**: `5cc35e5b274f4b98b4bdd4b22f0133b553c4e5009dc52fa38f9f0de67d375756` (Hash of Merkle + Secret ID)
+    *   **Identity Signature**: `bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4` (Hash of Merkle + Secret ID)
 
 ---
 
@@ -53,3 +53,24 @@
 
 ---
 **Author**: [Reco Fu] | **Verification Status**: **[100% Cryptographically Audited]**
+
+---
+## 📜 數據主權與取證審計 (Sovereign Audit Trail)
+
+為確保真跡之絕對純粹，本專案提供以下多維度校驗碼。任何位元偏移均將導致 Hash 失效。
+
+### 1. 物理層校驗 (Physical Layer Checksum)
+- **data.csv (SHA-256)**: `[41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B]`
+- **data.csv.ots (SHA-256)**: `[填入您 PowerShell 跑出來的 $OtsHash]`
+- **Sovereign Signature**: `[41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B|525ADAD2E89BD53ABBC019FB411346314656A828C2056033AC092818226DCD4F]`
+
+### 2. 邏輯層校驗 (Logical Integrity)
+- **Merkle Root**: `0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a`
+- **Total Records**: `2,013`
+
+### 3. 身分權利鎖定 (Identity Lock)
+- **Identity Signature**: `5cc35e5b274f4b98b4bdd4b22f0133b553c4e5009dc52fa38f9f0de67d375756`
+- **Status**: **Authenticated by Sovereign_0x**
+
+---
+**"The logic is immutable. The history is sealed."**
