@@ -5,13 +5,10 @@
 ![Equity Curve](chart.png)
 
 **"It is not a mere profit report; it is a nine-year longitudinal study in system survival."**
-這不是一份獲利報告，而是一場為期九年的**系統生存實驗（System Resilience Experiment）**。
-
-本專案透過物理級數據紀錄，實證了量化交易系統從「線性範式」跨越至「非線性 AI 湧現（AI Hive-Mind）」時代的效能極限與結構性崩潰。
-
-The system ran fully unattended in a non‑datacenter home environment in Taiwan, surviving years of earthquakes, typhoons, power outages, and connectivity loss until its planned demise in 2020.
-
-On the 2020/0318 black‑swan day, the system halted according to pre‑defined circuit‑breaker rules, before the historic negative oil prices in 2020/0420, effectively cutting off exposure to later structural breakdowns.
+ 這不是一份獲利報告，而是一場為期九年的**系統生存實驗（System Resilience Experiment）**。
+ 本專案透過物理級數據紀錄，實證了量化交易系統從「線性範式」跨越至「非線性 AI 湧現（AI Hive-Mind）」時代的效能極限與結構性崩潰。
+ The system ran fully unattended in a non‑datacenter home environment in Taiwan, surviving years of earthquakes, typhoons, power outages, and connectivity loss until its planned demise in 2020.
+ On the 2020/0318 black‑swan day, the system halted according to pre‑defined circuit‑breaker rules, before the historic negative oil prices in 2020/0420, effectively cutting off exposure to later structural breakdowns.
 
 ---
 
