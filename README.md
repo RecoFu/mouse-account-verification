@@ -5,7 +5,9 @@
 ![Equity Curve](chart.png)
 
 > **"It is not a mere profit report; it is a nine-year longitudinal study in system survival."**
-> 這不是一份獲利報告，而是一場為期九年的**系統生存實驗（System Resilience Experiment）**。本專案透過物理級數據紀錄，實證了量化交易系統從「線性範式」跨越至「非線性 AI 湧現（AI Hive-Mind）」時代的效能極限與結構性崩潰。
+> 這不是一份獲利報告，而是一場為期九年的**系統生存實驗（System Resilience Experiment）**。
+本專案透過物理級數據紀錄，實證了量化交易系統從「線性範式」跨越至「非線性 AI 湧現（AI Hive-Mind）」時代的效能極限與結構性崩潰。
+This project uses physically anchored audit trails to study the performance limits and structural failure modes of a fully autonomous futures trading system as markets transition from a linear regime to a nonlinear AI hive‑mind era.
 
 ---
 
