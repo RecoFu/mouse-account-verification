@@ -62,7 +62,6 @@ If you have never taken real futures risk, this is not for you.
 
 ```
 reco@outlook.com
-+886-932-007-879
 Taichung, Taiwan
 
 Status: Running new experiments. 
