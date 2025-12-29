@@ -39,6 +39,7 @@ On the 2020‑03 black‑swan day, the system halted according to pre‑defined 
 | **2019** | Broker_A | 194 | 33.1% | ¥ 1,350,000 | 35.31% | **229.2%** | Peak |
 | **2020** | Broker_A | 112 | 33.7% | ¥ 30,000 | **-97.7%**| **畢業 Ceremony** | Black Swan |
 
+If you have never taken real futures risk, this page is probably not written for you.
 ---
 
 ## 📈 視覺化真跡 (Interactive Visualization)
