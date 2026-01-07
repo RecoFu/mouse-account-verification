@@ -82,7 +82,7 @@ If my software or articles have provided value to you, feel free to support my o
 如果我的軟體或文章對你有所幫助，歡迎支持我的持續創作！
 > [!IMPORTANT]
 > **Terms of Support (贊助條款與免責聲明):**  
-> **"This repository is a forensic artifact. Support is an act of preserving the truth, not a transaction for service."**
+> **"This repository is a forensic artifact. Support is an act of preserving the truth, not a transaction for service."**  
 > （本倉庫為法醫遺產。贊助是為了保存真理，而非服務交易。）
 > 1. **Pure Gratitude (純粹贈與):** This payment is a **voluntary gift** in appreciation of existing free content. It is NOT a payment for goods, future updates, or custom services.
 >    (此款項為對既有免費內容的**自願性贈與**，不包含任何商品交易、後續更新或客製化服務。)
