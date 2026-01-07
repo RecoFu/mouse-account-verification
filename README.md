@@ -1,6 +1,6 @@
 # 🏛️ Mouse Account Verification PoW (2012–2020)
 ### *Author-Sealed Technical Case Study of High-Resilience Autonomous Trading Systems*
-### **量化小鼠驗證「線性文明之葬禮與 AI 治理紀元之開端」**
+### **量化期貨小鼠驗證「線性文明之葬禮與 AI 治理紀元之開端」**
 
 ---
 
