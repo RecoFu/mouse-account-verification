@@ -10,11 +10,11 @@
 
 This paper presents a **nine-year empirical study** of an autonomous quantitative trading system operated in a non-datacenter residential environment in Taiwan (2012–2020). The system survived 2,913 operational days across multiple financial crises, environmental disturbances (earthquakes, typhoons, power outages), and connectivity failures, executing **2,013 verified transactions**. On 2020/03/18, the system triggered circuit-breaker mechanisms preceding the historic negative oil prices event (2020/04/20), demonstrating the validity of predetermined risk termination protocols.
 
-**This archive is not an investment performance advertisement and does not recommend any strategy.** It is a forensic engineering record of one autonomous system's lifecycle under real-world constraints.
+**This archive is not an investment performance advertisement and does not constitute any form of financial advice, solicitation, or performance guarantee under any jurisdiction.** It is a forensic engineering record of one autonomous system's lifecycle under real-world constraints.
 
 本論文呈現**為期九年的實驗研究**，記錄一套在台灣非機房家庭環境中全自動運行的量化交易系統（2012–2020）。該系統跨越 2,913 個操作日，歷經多次金融危機、環境擾動（地震、颱風、斷電）與連線中斷，共執行 **2,013 筆驗證交易**。在 2020/03/18，系統觸發預設熔斷機制，先於歷史級負油價事件（2020/04/20），驗證了人工計畫終止協議的有效性。
 
-**本檔案非投資績效宣傳，不推薦任何策略。** 它是一套自主系統在真實環境下生命週期的法醫工程紀錄。
+**本檔案非投資績效宣傳，不構成任何司法轄區下的投資建議、招攬或績效保證。** 它是一套自主系統在真實環境下生命週期的法醫工程紀錄。
 
 ---
 
@@ -24,23 +24,27 @@ This paper presents a **nine-year empirical study** of an autonomous quantitativ
 >
 > From NT$50K (2012) → NT$1.35M (2019) → NT$30K (2020/03/18):
 >
-> This 97% drawdown was not a failure.
+> This 97% drawdown represents controlled capital depletion under pre-defined termination rules, not an uncontrolled trading loss.
 > It was the system proving it could exit **before** structural collapse.
 >
 > On 2020/04/20, crude oil traded at negative prices (−$37.63/barrel).
 > The system had zero exposure.
 >
+> **Under traditional PnL framing this is a failure; under this SRE framing, success is protocol-compliant termination.**
+>
 > **That is not luck. That is architecture.**"
 
 > **「莫測市場，但要監控才能活命。**
 >
-> 從5萬（2012）→ 135萬（2019）→ 3萬（2020/03/18）：
+> 從 5 萬（2012）→ 135 萬（2019）→ 3 萬（2020/03/18）：
 >
-> 這97%的回撤不是失敗。
+> 這 97% 的回撤代表依預設終止規則的受控資本耗盡，非失控交易損失。
 > 是系統證明了它能在結構性崩潰**之前**退場。
 >
 > 2020/04/20，原油交易於負油價（−37.63$/桶）。
 > 系統零部位暴露。
+>
+> **在傳統損益框架下這是失敗；在本 SRE 框架下，成功是依協議終止。**
 >
 > **那不是運氣。那是架構。」**
 
@@ -50,9 +54,17 @@ This paper presents a **nine-year empirical study** of an autonomous quantitativ
 
 ### 1.1 Motivation | 動機
 
-Traditional quantitative trading research relies on backtested models or short-term operational records. **This archive differs fundamentally**: it documents a real-world deployed system's complete lifecycle, including failure modes, environmental shocks, and explicit risk termination. Risk tolerances shown here are specific to a small experimental "mouse" account and are **not suitable for institutional capital**.
+Traditional quantitative trading research relies on backtested models or short-term operational records. **This archive differs fundamentally**: it documents a real-world deployed system's complete lifecycle, including failure modes, environmental shocks, and explicit risk termination. 
 
-傳統量化交易研究依賴回測模型或短期操作紀錄。**本檔案根本不同**：它記錄一套真實部署系統的完整生命週期，包含失效模式、環境衝擊與明確的風險終止。本檔案所示的風險容忍度特定於小型實驗用的「小鼠帳戶」，**不適用於機構資本**。
+**This is a low-frequency, high-resilience deployment; the emphasis is on operational continuity, not trade frequency.**
+
+Risk tolerances shown here are specific to a small experimental "mouse" account and are **not suitable for institutional capital**.
+
+傳統量化交易研究依賴回測模型或短期操作紀錄。**本檔案根本不同**：它記錄一套真實部署系統的完整生命週期，包含失效模式、環境衝擊與明確的風險終止。
+
+**這是低頻、高韌性的部署；重點在運營連續性，而非交易頻率。**
+
+本檔案所示的風險容忍度特定於小型實驗用的「小鼠帳戶」，**不適用於機構資本**。
 
 ### 1.2 System Architecture | 系統架構
 
@@ -81,17 +93,17 @@ A transaction record satisfies **forensic integrity** if:
 2. **Cryptographic Anchoring**: Complete record set merkle-rooted to singular hash R
 3. **Non-Repudiation**: Operator cannot retroactively modify records without breaking R
 
-**Assumption**: Gmail timestamps are generated outside the operator's trust boundary and are therefore independent of system operator control.
+**Assumption**: Gmail timestamps are treated as **practically independent** (generated outside operator control plane). Threat model excludes collusion with Google infrastructure and assumes standard SMTP header integrity. *Not a cryptographically trustless guarantee, but a practical operational standard.*
 
 ---
 
-### Theorem 2.2: Circuit-Breaker Principle
+### Proposition 2.2 (Engineering Claim): Circuit-Breaker Principle
 
-**Claim**: A predetermined circuit-breaker halting before structural market breakdown prevents catastrophic tail losses.
+**Claim**: In one real-world autonomous trading system, a pre-committed circuit-breaker halted exposure prior to a documented structural market breakdown, thereby avoiding realized tail loss.
 
-**Scope**: Single-system, single-event, engineering decision rule. *Not a universal financial theorem.*
+**Scope**: Single-system, single-event, engineering design pattern. *This is an existence proof, not evidence of prevalence. It does not claim that all pre-committed exits will succeed, only that one such design did not fail in this documented regime shift.*
 
-**Evidence**: On 2020/03/18, system halted per protocol. On 2020/04/20, crude oil traded at −$37.63/barrel. System had zero exposure. □
+**Evidence**: On 2020/03/18, system halted per protocol. On 2020/04/20, crude oil traded at −$37.63/barrel, a structural regime shift. System had zero exposure. □
 
 ---
 
@@ -112,6 +124,10 @@ A transaction record satisfies **forensic integrity** if:
 | 2018 | 162 | 40.9% | NT$997,678 | −0.01% | 143.3% | Net Liquidity |
 | 2019 | 194 | 33.1% | NT$1,350,000 | 35.31% | 229.2% | Peak |
 | 2020 | 112 | 33.7% | NT$30,000 | −97.7% | Graduation | **Regime-Shift Termination (Graduation)** |
+
+**Error Rate Definition**: Error Rate is a system-internal metric (e.g., rule rejections / attempted signals), not broker settlement errors or execution failures. See Appendix D for technical definition.
+
+**Cumulative Return Rebasing**: Due to capital adjustments and strategy transitions (2017–2018), cumulative returns are piecewise-calculated relative to initial capital (NT$50,000), with marked inflection points where portfolio structure changed.
 
 ### 3.2 Data Provenance | 數據源
 
@@ -143,7 +159,9 @@ Merkle Root (SHA-256):
 
 **Invariant**: Any bit modification invalidates this root. Root serves as cryptographic fingerprint.
 
-**Verification Scope**: This cryptography verifies **data integrity**, not strategy optimality or trading skill. All sensitive trading parameters remain proprietary.
+**Verification Scope**: This cryptography verifies **data integrity** (that records were not retroactively altered), not strategy optimality or trading skill. All sensitive trading parameters remain proprietary.
+
+**Redundant Trust Anchors**: Multiple independent anchors (Gmail, IPFS, Git history, OpenTimestamps) reduce reliance on any single provider.
 
 ### 4.2 Physical Layer Checksum
 
@@ -187,7 +205,7 @@ Authenticated by: Sovereign_0x (Reco Fu)
 >
 > From NT$50K to NT$1.35M to NT$30K:
 >
-> **97% Drawdown = Dimensional Elevation of Quantitative Trading.**
+> **97% Terminal Drawdown = Dimensional Elevation of Quantitative Trading.**
 >
 > The system didn't fail. It graduated."
 
@@ -203,9 +221,11 @@ Authenticated by: Sovereign_0x (Reco Fu)
 
 ### 6.2 Counterfactual Analysis | 反事實分析
 
-**Scenario Analysis** (not realized PnL):
+**Scenario Analysis** (purely hypothetical, not realized PnL):
 
-If system had continued trading through 2020/04/20, estimated loss range under historical position sizing *(based on historical volatility scaling and 2015–2019 regime data)*: NT$X–NT$Y, median scenario ≈ NT$5,000,000. Exact sizing parameters remain proprietary.
+If system had continued trading through 2020/04/20, it would have faced **unbounded downside risk** under negative price regimes. This scenario serves only to illustrate tail-risk magnitude, not to claim foreknowledge.
+
+All scenario estimates are hypothetical and illustrative only; they do not constitute realized losses, predictions, or performance claims.
 
 **Validation**: System did halt before this event, validating pre-committed exit design.
 
@@ -216,7 +236,7 @@ If system had continued trading through 2020/04/20, estimated loss range under h
 ### 7.1 Data Provenance Statement
 
 - Raw logs preserved with environmental parameters intact (no smoothing, no retroactive adjustments)
-- Broker identifiers anonymized (KGI, 元大) while maintaining authenticity
+- Broker identifiers anonymized for operational privacy while maintaining authenticity
 - All timestamps locked by third-party infrastructure (Gmail)
 - Interactive visualization available for independent validation
 - Hardware independent: Windows + MultiCharts + SD-card scheduler (no cloud)
@@ -227,6 +247,7 @@ If system had continued trading through 2020/04/20, estimated loss range under h
 - Single system instance limits statistical power for regime-shift detection
 - Leverage ratios and position sizing not disclosed (proprietary)
 - Risk tolerances are **not suitable for institutional capital**
+- **This archive documents a path-dependent realization; different random paths with the same architecture could still end in total loss prior to any black swan event.**
 
 ---
 
@@ -241,7 +262,9 @@ If system had continued trading through 2020/04/20, estimated loss range under h
 >
 > Monitoring killed the prediction paradigm on 2020/04/20.
 >
-> Operationally, this archive supports the claim that pre-committed exit rules can prevent catastrophic tail losses in at least one real-world deployment. It does not claim that all predictive models are obsolete."
+> Operationally, this archive supports the claim that pre-committed exit rules can prevent catastrophic tail losses in at least one real-world deployment. It does not claim that all predictive models are obsolete.
+>
+> **The philosophy does not guarantee survival; it defines how failure modes are constrained and documented.**"
 
 ---
 
@@ -266,6 +289,8 @@ This repository is maintained as a permanent record. Support for long-term archi
 - **GitHub**: [Issues & Inquiries](https://github.com/RecoFu/mouse-account-verification/issues)
 
 **Key Principle**: Contributions are voluntary gifts recognizing historical preservation, not service contracts. All content provided AS-IS.
+
+**Errata Policy**: Any discovered factual error will be corrected in a new tagged version, preserving previous versions as historical artifacts for forensic comparison.
 
 ---
 
@@ -304,7 +329,7 @@ The cryptographic audit trail provides a template for trustless documentation of
 ## Appendix A: System Parameters | 附錄 A：系統參數
 
 - **OS**: Windows + MultiCharts (home server, Taiwan)
-- **Runtime**: 2,913 continuous days (2012–2020)
+- **Operational Days**: 2,913 (excluding planned maintenance and idle periods)
 - **Network**: ISP-dependent, no guaranteed connectivity
 - **Power**: Residential power + UPS + SD-card scheduler
 - **Brokers**: Two independent brokers (anonymized for operational privacy)
@@ -333,6 +358,18 @@ Merkle Root: 9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557
 Status: Content-Addressed, Immutable, Distributed
 Trust Model: Zero-knowledge proof via cryptographic anchors, not human authority.
 ```
+
+---
+
+## Appendix D: Operational Definitions | 附錄 D：運營定義
+
+**Operational Days**: Continuous calendar days where system was actively monitoring and capable of executing trades, excluding planned maintenance windows.
+
+**Error Rate**: System-internal metric measuring signal rejections and rule violations (e.g., orders rejected by circuit-breaker logic, duplicate order prevention), not broker settlement failures or execution gaps.
+
+**Graduation** (Regime-Shift Termination): Deliberate system retirement upon detection of market regime boundary conditions that exceed original design parameters.
+
+**Terminal Drawdown**: A drawdown incurred as a direct consequence of a pre-committed system halt, distinguished from stochastic drawdown during normal operations.
 
 ---
 
