@@ -80,9 +80,6 @@ If you have never taken real futures risk, this page is probably not written for
 
 If my software or articles have provided value to you, feel free to support my ongoing work!
 如果我的軟體或文章對你有所幫助，歡迎支持我的持續創作！
-
-### [👉 Support via PayPal (透過 PayPal 贊助)](https://paypal.me/RecoFu)
-
 > [!IMPORTANT]
 > **Terms of Support (贊助條款與免責聲明):**
 > 1. **Pure Gratitude (純粹贈與):** This payment is a **voluntary gift** in appreciation of existing free content. It is NOT a payment for goods, future updates, or custom services.
@@ -93,6 +90,6 @@ If my software or articles have provided value to you, feel free to support my o
 >    (此贊助不構成買賣契約。所有內容均按「現狀」提供，不附帶任何形式的保證。)
 > 4. **No Ownership or Influence (無權限轉移):** Support does not grant any ownership, licensing rights, or influence over project decisions.
 >    (贊助並不授予任何所有權、授權許可或對專案決策的影響力。)
-
+### [👉 Support via PayPal (透過 PayPal 贊助)](https://paypal.me/RecoFu)
 ---
 **"The logic is immutable. The history is sealed."**
