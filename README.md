@@ -81,7 +81,7 @@ If you have never taken real futures risk, this page is probably not written for
 If my software or articles have provided value to you, feel free to support my ongoing work!
 如果我的軟體或文章對你有所幫助，歡迎支持我的持續創作！
 > [!IMPORTANT]
-> **Terms of Support (贊助條款與免責聲明):**
+> **Terms of Support (贊助條款與免責聲明):**  
 > **"This repository is a forensic artifact. Support is an act of preserving the truth, not a transaction for service."**
 > （本倉庫為法醫遺產。贊助是為了保存真理，而非服務交易。）
 > 1. **Pure Gratitude (純粹贈與):** This payment is a **voluntary gift** in appreciation of existing free content. It is NOT a payment for goods, future updates, or custom services.
@@ -94,4 +94,4 @@ If my software or articles have provided value to you, feel free to support my o
 >    (贊助並不授予任何所有權、授權許可或對專案決策的影響力。)
 ### [👉 Support via PayPal (透過 PayPal 贊助)](https://paypal.me/RecoFu)
 ---
-**"The logic is immutable. The history is sealed."**
+**"The logic is immutable. The history is sealed."**  
