@@ -43,6 +43,7 @@ If this seems obvious now, **return to 2012 and examine what was being built**; 
 
 > This is not a claim of causality; it is a documented time‑ordered observation.  
 > 這不是因果宣稱，而是有序時間序列的紀錄。
+👉https://recofu.github.io/mouse-account-verification/index.html
 
 ---
 
@@ -133,7 +134,7 @@ Minimize reviewer ambiguity; all numbers traceable to `data.csv`.
 
 **Contact & Settlement | 聯絡與結算**  
 PayPal-supported settlement available **after verified review request**.  
-若有收穫，歡贏透過 PayPal 隨時進行支助。  
+若有收穫，歡迎透過 PayPal 隨時進行無償支助。  
 👉 https://paypal.me/RecoFu
 
 ---
@@ -153,9 +154,8 @@ All mitigated via raw logs, hash anchors, Merkle Root, and pre-declared HALT rul
 ---
 
 ## Final Note | 最終說明
-This is a sealed, author-signed technical case study.  
-No further optimization, continuation, or revival is intended.  
-此為封存、作者簽署之技術案例，不再進行優化、延續或重啟。
+This is a sealed record display and a technical case signed by the author. It will not be optimized, continued, restarted, or responded to or communicated with in any way. 
+此為封存、作者簽署之技術案例，不再進行優化、延續或重啟與任何回應交流。
 
 **If this looks obvious today, it is only because time has passed.**  
 **你今天的理所當然，只因時間已過。**
