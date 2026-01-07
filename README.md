@@ -1,5 +1,6 @@
-# 🏛️ Mouse Account Verification: A Nine-Year Longitudinal Study on High-Resilience Autonomous Trading Systems  
-* 🏛️小鼠帳戶驗證：一項高容錯全自主交易系統的九年縱向研究
+# 🏛️ Mouse Account Verification PoW (2012-2020)
+### *Empirical Analysis of High-Resilience Autonomous Trading Systems*
+### **量化小鼠驗證「線性文明之葬禮與 AI 治理紀元之開端」**
 
 **Reco Fu** | 2012–2020  
 **Document Type**: Forensic Engineering Report (Non-peer-reviewed)  
