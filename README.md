@@ -9,7 +9,7 @@ This repository documents a fully automated, unattended futures trading system a
 Its objective is not market prediction but continuous risk surveillance, fail-safe enforcement, and verifiable archival under extreme conditions.  
 
 本專案記錄一套外派時在台「完全無人值守」的全自動期貨交易系統，作為礦坑口金絲雀實驗記錄與分析。  
-其目的並非預測市場，而是在極端條件下持續監控各維度風險並確保可驗證的熔斷與封存。
+其目的並非預測市場，而挑戰在極端條件下持續監控各維度風險並確保可驗證的熔斷與封存。
 
 ---
 
