@@ -239,20 +239,16 @@ The cryptographic audit trail—merkle-rooted, timestamp-locked, and third-party
 ## 10. References | 參考文獻
 
 [1] Taleb, N. N. (2007). *The Black Swan: The Impact of the Highly Improbable*. Random House.
-
 [2] Nakamoto, S. (2008). Bitcoin: A Peer-to-Peer Electronic Cash System. *whitepaper*.
-
 [3] Merkle, R. C. (1988). "A Digital Signature Based on a Conventional Encryption Function." *CRYPTO '87*.
-
 [4] Nassim Nicholas Taleb (2012). *Antifragile: Things That Gain from Disorder*. Random House.
-
 [5] Mouse Account Verification Archive (2012–2020). *Forensic Artifact Repository*. GitHub: https://github.com/RecoFu/mouse-account-verification
 
 ---
 
 ## Appendix A: System Parameters | 附錄 A：系統參數
 
-- **Operating System**: Linux (home server, Taiwan)
+- **Operating System**: Windows (home server, Taiwan)
 - **Runtime**: 2,913 continuous operational days (2012–2020)
 - **Network**: ISP-dependent, no guaranteed connectivity
 - **Power**: Standard residential power + UPS backup
