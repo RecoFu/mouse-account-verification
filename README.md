@@ -17,7 +17,7 @@ This paper presents a **nine-year empirical study** of an autonomous quantitativ
 
 > **"Prediction is a fool's errand; Monitoring is a Science.**
 >
-> From ¥50K (2012) → ¥1.35M (2019) → ¥30K (2020/03/18):
+> From NT$50K (2012) → NT$1.35M (2019) → NT$30K (2020/03/18):
 >
 > This 97% drawdown was not a failure.
 > It was the system proving it could exit **before** structural collapse.
@@ -53,8 +53,8 @@ Traditional quantitative trading research relies on backtested models or short-t
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ Autonomous Trading Agent (Unattended Home Server)    │
-│                                                      │
+│ Autonomous Trading Agent (Unattended Home Server)   │
+│                                                     │
 │  ├─ Execution Engine (MultiCharts, KGI Broker)      │
 │  ├─ Risk Controller (Circuit-Breaker Logic)         │
 │  ├─ Audit Logger (Gmail Time-Lock Mechanism)        │
