@@ -60,6 +60,8 @@ It is not, by itself, a system failure.
 它就是虧損。  
 但「虧損」本身，不等於「系統失敗」。
 
+## 3.x Interactive Equity Curve | 互動股權曲線（TradingView 動態圖）
+https://recofu.github.io/mouse-account-verification/index.html
 ---
 
 ### Definition 3.2 — Terminal Condition
