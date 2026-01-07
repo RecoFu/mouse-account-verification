@@ -76,7 +76,7 @@ A transaction record satisfies **forensic integrity** if:
 
 ### 3.1 Performance Summary | 績效摘要
 
-![Equity Curve](https://recofu.github.io/mouse-account-verification/)
+![Equity Curve](chart.png)
 
 | Year | Trades | Error Rate | Ending Equity | YoY Return | Cumulative Return | Status |
 |:----:|:-------:|:----------:|:-------------:|:----------:|:---:|:-----:|
