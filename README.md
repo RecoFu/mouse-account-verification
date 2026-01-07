@@ -76,4 +76,23 @@ If you have never taken real futures risk, this page is probably not written for
 - **Status**: **Authenticated by Sovereign_0x**
 
 ---
+## ☕ Support My Work (支持我的創作)
+
+If my software or articles have provided value to you, feel free to support my ongoing work!
+如果我的軟體或文章對你有所幫助，歡迎支持我的持續創作！
+
+### [👉 Support via PayPal (透過 PayPal 贊助)](https://paypal.me/RecoFu)
+
+> [!IMPORTANT]
+> **Terms of Support (贊助條款與免責聲明):**
+> 1. **Pure Gratitude (純粹贈與):** This payment is a **voluntary gift** in appreciation of existing free content. It is NOT a payment for goods, future updates, or custom services.
+>    (此款項為對既有免費內容的**自願性贈與**，不包含任何商品交易、後續更新或客製化服務。)
+> 2. **Final & Non-Refundable (不可撤回):** By completing the transaction, you waive the right to a refund. All supports are final.
+>    (完成交易即表示您放棄退款權利，所有贊助款項均**不予退還**。)
+> 3. **No Contractual Obligation (無契約關係):** This support does not establish a buyer-seller relationship. All content is provided "AS-IS" without any warranties.
+>    (此贊助不構成買賣契約。所有內容均按「現狀」提供，不附帶任何形式的保證。)
+> 4. **No Ownership or Influence (無權限轉移):** Support does not grant any ownership, licensing rights, or influence over project decisions.
+>    (贊助並不授予任何所有權、授權許可或對專案決策的影響力。)
+
+---
 **"The logic is immutable. The history is sealed."**
