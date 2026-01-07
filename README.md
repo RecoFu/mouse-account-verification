@@ -8,7 +8,7 @@
 This repository documents a fully automated, unattended futures trading system as a *canary-in-the-coal-mine* experiment.  
 Its objective is not market prediction but continuous risk surveillance, fail-safe enforcement, and verifiable archival under extreme conditions.  
 
-本專案記錄一套「完全無人值守」的全自動期貨交易系統，作為礦坑口金絲雀實驗。  
+本專案記錄一套外派時「完全無人值守」的全自動期貨交易系統，作為礦坑口金絲雀實驗。  
 其目的並非預測市場，而是在極端條件下持續監控風險並確保可驗證的熔斷與封存。
 
 ---
@@ -128,12 +128,12 @@ Minimize reviewer ambiguity; all numbers traceable to `data.csv`.
 5. Cross-check TradingView visualization vs raw CSV  
 
 **Reviewer Note | 審查者說明**  
-97.7% drawdown is a signal, not a failure. This system is a canary, not a hero.  
-97.7% 回撤是訊號，而非失敗指標。本系統為金絲雀，不是英雄。
+97.7% drawdown is a signal, not a failure. This system is a canary history, not a hero.  
+97.7% 回撤是訊號，而非失敗指標。本系統為9年金絲雀考古展示，不是英雄。
 
 **Contact & Settlement | 聯絡與結算**  
 PayPal-supported settlement available **after verified review request**.  
-審查確認後，可透過 PayPal 進行結算。  
+若有收穫，歡贏透過 PayPal 隨時進行支助。  
 👉 https://paypal.me/RecoFu
 
 ---
@@ -158,10 +158,6 @@ No further optimization, continuation, or revival is intended.
 此為封存、作者簽署之技術案例，不再進行優化、延續或重啟。
 
 **If this looks obvious today, it is only because time has passed.**  
-**今天看似理所當然，只因時間已過。**
+**你今天的理所當然，只因時間已過。**
 
 ---
-
-**Author | 作者**: Reco Fu  
-**Version | 版本**: v2.4‑stable  
-**Date | 日期**: 2026‑01‑07
