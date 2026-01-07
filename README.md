@@ -20,9 +20,9 @@ Do not predict markets. Instrument them. Survival precedes performance.
 ---
 ## Empirical Data | 實證數據
 ### Interactive Equity Curve | 互動股權曲線
-👉https://recofu.github.io/mouse-account-verification/index.html  
 The interactive TradingView visualization binds the complete dataset for inspection, zooming, and replay.
 TradingView 互動圖表完整綁定全量資料，供即時檢視、縮放與回放。
+👉https://recofu.github.io/mouse-account-verification/index.html
 ---
 ## Data Lineage | 數據血緣
 * `data.csv` → Raw transaction-level data (GitHub direct)
