@@ -2,7 +2,7 @@
 ### *Empirical Analysis of High-Resilience Autonomous Trading Systems*
 ### **量化小鼠驗證「線性文明之葬禮與 AI 治理紀元之開端」**
 ## Abstract | 摘要
-This repository documents a fully automated, unattended futures trading system used as a *canary-in-the-coal-mine* experiment. The objective is not market prediction, but continuous risk surveillance and fail-safe enforcement under extreme conditions.
+This repository documents a fully automated, unattended futures trading system used as a *canary-in-the-coal-mine* experiment. The objective is not market prediction, but continuous risk surveillance and fail-safe enforcement under extreme conditions.  
 本專案記錄一套「完全無人值守」的全自動期貨交易系統，作為礦坑口金絲雀實驗。其目的並非預測市場，而是在極端條件下持續監控風險並確保可驗證的熔斷與停止。
 ---
 ## Core Thesis | 核心命題
