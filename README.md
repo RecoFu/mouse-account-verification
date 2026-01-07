@@ -9,36 +9,32 @@
 
 This paper presents a **nine-year empirical study** of an autonomous quantitative trading system operated in a non-datacenter residential environment in Taiwan (2012–2020). The system survived 2,913 operational days across multiple financial crises, environmental disturbances (earthquakes, typhoons, power outages), and connectivity failures, executing **2,013 verified transactions**. On 2020/03/18, the system triggered circuit-breaker mechanisms preceding the historic negative oil prices event (2020/04/20), demonstrating the validity of predetermined risk termination protocols.
 
-**Key Findings:** (1) Linear trading paradigms exhibit critical failure modes under non-linear market regimes; (2) deterministic timestamp-locked audit trails provide cryptographic proof of system behavior; (3) planned system demise outperforms adaptive failure recovery in tail-risk scenarios.
-
 本論文呈現**為期九年的實驗研究**，記錄一套在台灣非機房家庭環境中全自動運行的量化交易系統（2012–2020）。該系統跨越 2,913 個操作日，歷經多次金融危機、環境擾動（地震、颱風、斷電）與連線中斷，共執行 **2,013 筆驗證交易**。在 2020/03/18，系統觸發預設熔斷機制，先於歷史級負油價事件（2020/04/20），驗證了人工計畫終止協議的有效性。
-
-**主要發現：**（1）線性交易範式在非線性市場機制下呈現臨界失敗模式；（2）時間戳鎖定的確定性審計軌跡提供密碼學層級的系統行為證明；（3）預定系統終止優於自適應故障恢復，尤其在尾部風險場景。
 
 ---
 
-## 🏆 Core Principle | 核心原則
+## 🎯 Core Principle | 核心原則
 
 > **"Prediction is a fool's errand; Monitoring is a Science.**
 >
-> From ¥50K (2012) → ¥1.35M (2019) → ¥30K (2020/03/18):  
-> This 97% drawdown was not a failure.  
+> From ¥50K (2012) → ¥1.35M (2019) → ¥30K (2020/03/18):
+>
+> This 97% drawdown was not a failure.
 > It was the system proving it could exit **before** structural collapse.
 >
-> On 2020/04/20, crude oil traded at negative prices (−$37.63/barrel).  
+> On 2020/04/20, crude oil traded at negative prices (−$37.63/barrel).
 > The system had zero exposure.
 >
 > **That is not luck. That is architecture.**"
 
----
-
 > **「莫測市場，但要監控才能活命。**
 >
-> 從5萬（2012）→ 135萬（2019）→ 3萬（2020/03/18）：  
-> 這97%的回撤不是失敗。  
+> 從5萬（2012）→ 135萬（2019）→ 3萬（2020/03/18）：
+>
+> 這97%的回撤不是失敗。
 > 是系統證明了它能在結構性崩潰**之前**退場。
 >
-> 2020/04/20，原油交易於負油價（−37.63$/桶）。  
+> 2020/04/20，原油交易於負油價（−37.63$/桶）。
 > 系統零部位暴露。
 >
 > **那不是運氣。那是架構。」**
@@ -57,22 +53,24 @@ Traditional quantitative trading research relies on backtested models or short-t
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ Autonomous Trading Agent (Unattended Home Server)   │
-│                                                     │
-│  ├─ Execution Engine (MultiChart EasyLanguage)      │
+│ Autonomous Trading Agent (Unattended Home Server)    │
+│                                                      │
+│  ├─ Execution Engine (MultiCharts, KGI Broker)      │
 │  ├─ Risk Controller (Circuit-Breaker Logic)         │
 │  ├─ Audit Logger (Gmail Time-Lock Mechanism)        │
 │  └─ Survival Monitor (9-Year Continuous Op.)        │
 └─────────────────────────────────────────────────────┘
 ```
 
-The system operates **without human intervention**, with all orders logged via automated email delivery to Google's infrastructure, ensuring third-party timestamp integrity.
+The system operates **without human intervention**, with all orders logged via automated email delivery to Google's infrastructure, ensuring third-party timestamp integrity. Windows-based MultiCharts with deterministic batch-restart via SD-backed scheduler.
+
+系統**無人值守**運作，所有委託單透過自動化電郵傳送至 Google 基礎設施，確保第三方時間戳完整性。基於 Windows + MultiCharts，配合 SD 卡備份的定時器自動重啟機制。
 
 ---
 
 ## 2. Theoretical Framework | 理論框架
 
-### Definition 2.1: Forensic Integrity | 法醫級完整性
+### Definition 2.1: Forensic Integrity
 
 A transaction record satisfies **forensic integrity** if:
 
@@ -88,7 +86,7 @@ A transaction record satisfies **forensic integrity** if:
 2. **密碼學錨定**：完整紀錄集合 merkle-根於單一哈希 R
 3. **不可否認性**：系統操作者無法在不破壞 R 的前提下事後修改紀錄
 
-### Theorem 2.2: Circuit-Breaker Optimality | 熔斷最優性
+### Theorem 2.2: Circuit-Breaker Optimality
 
 *If a predetermined circuit-breaker halts a trading system **before** a structural market breakdown occurs, then planned termination ≥ adaptive recovery in tail-risk mitigation.*
 
@@ -98,17 +96,19 @@ A transaction record satisfies **forensic integrity** if:
 
 **Proof Sketch**: On 2020/03/18, the system halted per protocol. On 2020/04/20, crude oil traded at **negative prices** (−$37.63/barrel), a structural regime shift. The system had zero exposure. □
 
+**證明概要**：2020/03/18，系統依協議停止。2020/04/20，原油交易於負價格（−37.63$/桶），結構性機制轉變。系統零暴露。 □
+
 ---
 
 ## 3. Empirical Data | 實驗數據
 
 ### 3.1 Performance Summary | 績效摘要
 
-![Equity Curve](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/chart.png)
+![Equity Curve](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/chart.png?raw=true)
 
 | Year | Trades | Error Rate | Ending Equity | YoY Return | Cumulative Return | Status |
 |:----:|:-------:|:----------:|:-------------:|:----------:|:---:|:-----:|
-| 2012 | 0 | 100% | ¥50,000 | 0.00% | 0.00% | Bootstrap |
+| 2012 | 0 | 100% | ¥50,000 | 0.00% | 0.00% | **Bootstrap** |
 | 2013 | 42 | 2.33% | ¥80,000 | 60.00% | 60.00% | Stable |
 | 2014 | 210 | 0.00% | ¥150,000 | 87.50% | 200.00% | Optimized |
 | 2015 | 391 | 0.00% | ¥360,000 | 140.0% | 620.0% | **Alpha Max** |
@@ -116,36 +116,47 @@ A transaction record satisfies **forensic integrity** if:
 | 2017 | 23 | 89.6% | ¥637,711 | 102.1% | 1,175.4% | Recovery |
 | 2018 | 162 | 40.9% | ¥997,678 | −0.01% | 143.3% | Net Liquidity |
 | 2019 | 194 | 33.1% | ¥1,350,000 | 35.31% | 229.2% | **Peak** |
-| 2020 | 112 | 33.7% | ¥30,000 | −97.7% | Graduation | **Black Swan (Sealed)** |
+| 2020 | 112 | 33.7% | ¥30,000 | −97.7% | Graduation | **Sealed (Circuit-Breaker)** |
 
-**Remark**: The final 2020 drawdown reflects intentional risk-off positioning and planned circuit-breaker termination, not system failure.
+**Note**: The final 2020 drawdown reflects intentional circuit-breaker termination **before** 2020/04/20 negative oil prices, not system failure.
+
+**備註**：2020 年最終回撤反映預設熔斷機制在 2020/04/20 負油價**之前**的人工終止，非系統失敗。
 
 ### 3.2 Data Provenance | 數據源
 
 **2,013 verified transaction records** with millisecond-precision execution timestamps.
 
-- **Primary Source**: Automated email logs from MultiChart gateway → Gmail
-- **Secondary Verification**: Interactive equity curve visualization
+- **Primary Source**: Automated email logs from MultiCharts execution → Gmail server
+- **Raw Data Archive**: [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv) in repository
+- **Secondary Verification**: [Interactive equity curve](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html) with TradingView engine
 - **Audit Trail**: Complete order flow with environment parameters preserved (no data smoothing)
 
 **2,013 筆驗證交易紀錄**附毫秒級執行時間戳。
 
-### 3.3 Data Accessibility | 數據可訪問性
+- **主要來源**：MultiCharts 執行 → Gmail 伺服器自動化郵件日誌
+- **原始資料檔案**：倉庫中的 [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv)
+- **二次驗證**：TradingView 引擎的[互動股權曲線](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html)
+- **審計軌跡**：保留環境參數的完整委託單流（無數據平滑）
 
-All raw data and verification artifacts are publicly accessible:
+### 3.3 Data Accessibility | 數據可獲性
 
-- **Raw CSV Dataset**: [data.csv](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/data.csv) (2,013 transactions, complete audit trail)
-- **Performance Chart**: [chart.png](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/chart.png) (Equity curve visualization)
-- **Interactive Dashboard**: [index.html](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/index.html) (TradingView-compatible real-time data explorer)
-- **GitHub Repository**: https://github.com/RecoFu/mouse-account-verification
+All raw data is publicly accessible and verifiable:
 
-**Reproducibility Statement**: Any researcher can independently validate the Merkle root, verify transaction timestamps, and reproduce the equity curve using the provided CSV and verification scripts.
+| Asset | Format | Location | Verification |
+|:---:|:----:|:-------:|:-------:|
+| **Raw Transactions** | CSV | [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv) | SHA-256 checksum |
+| **Equity Visualization** | PNG | [chart.png](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/chart.png) | Visual audit |
+| **Interactive Dashboard** | HTML | [index.html](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html) | Real-time data binding |
+| **IPFS Archive** | Distributed | `bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4` | Content-addressed |
 
-所有原始數據與驗證工件均公開訪問：
+所有原始資料均公開可驗證：
 
-- **原始 CSV 數據集**: [data.csv](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/data.csv)（2,013 筆交易，完整審計軌跡）
-- **績效圖表**: [chart.png](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/chart.png)（權益曲線視覺化）
-- **互動儀表板**: [index.html](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/index.html)（TradingView 相容即時數據瀏覽器）
+| 資產 | 格式 | 位置 | 驗證 |
+|:---:|:----:|:-------:|:-------:|
+| **原始交易** | CSV | [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv) | SHA-256 校驗 |
+| **股權視覺化** | PNG | [chart.png](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/chart.png) | 視覺審計 |
+| **互動儀表板** | HTML | [index.html](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html) | 即時資料繫結 |
+| **IPFS 存檔** | 分佈式 | `bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4` | 內容尋址 |
 
 ---
 
@@ -169,6 +180,8 @@ Merkle Root (SHA-256):
 9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557
 ```
 
+**不變量**：底層資料中任何位元修改都會使此根失效。根充當完整歷史記錄的**密碼學指紋**。
+
 ### 4.2 Physical Layer Checksum
 
 ```
@@ -177,9 +190,6 @@ Raw Data (SHA-256):
 
 OpenTimestamps Proof (OTS):
 2497D2C57606F0A3E44402D98BBB8213B6F2DC6175E0B8A016EBC62F19C81A67
-
-IPFS Hash (Content Address):
-QmW2WQi7j6c7UgJzYaAVJ8G3bhMhV9HM7N3AxXvCt8eKP
 ```
 
 ### 4.3 Identity Lock
@@ -191,27 +201,29 @@ a2a41fa07b1b82c18f373b499910779a46b85387180153f9e2a1bc4c13d78373
 Authenticated by: Sovereign_0x (Reco Fu)
 ```
 
-These cryptographic anchors enable **third-party verification** of system integrity without exposing sensitive trading parameters.
-
-這些密碼學錨定允許**第三方驗證**系統完整性，而無需公開敏感交易參數。
-
 ### 4.4 Verification Protocol | 驗證協議
 
-**For independent validators**: The Merkle root can be reconstructed from the CSV file using the provided verification script:
+Users can independently verify cryptographic integrity:
 
 ```bash
-# Bash / Python-compatible verification
+# Step 1: Download raw CSV
+curl -o data.csv \
+  https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/data.csv
+
+# Step 2: Compute SHA-256
 sha256sum data.csv
 # Expected: 41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B
 
-# Merkle root verification
+# Step 3: Verify Merkle Root (requires merkle-tree script)
 python3 verify_merkle.py data.csv
 # Expected: 9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557
 ```
 
-**For blockchain anchoring**: The dataset is also pinned to IPFS (content-addressable storage), ensuring long-term immutability:
-- **IPFS Gateway**: `ipfs://QmW2WQi7j6c7UgJzYaAVJ8G3bhMhV9HM7N3AxXvCt8eKP`
-- **Verifiable via**: [https://gateway.pinata.cloud/ipfs/QmW2WQi7j6c7UgJzYaAVJ8G3bhMhV9HM7N3AxXvCt8eKP](https://gateway.pinata.cloud/ipfs/QmW2WQi7j6c7UgJzYaAVJ8G3bhMhV9HM7N3AxXvCt8eKP)
+使用者可以獨立驗證密碼學完整性。無第三方信任所需。
+
+These cryptographic anchors enable **third-party verification** of system integrity without exposing sensitive trading parameters.
+
+這些密碼學錨定允許**第三方驗證**系統完整性，而無需公開敏感交易參數。
 
 ---
 
@@ -232,19 +244,25 @@ python3 verify_merkle.py data.csv
 
 ---
 
-## 6. Black Swan Event: 2020/03/18–04/20 | 黑天鵝事件
+## 6. Black Swan Event: The Proof of Architecture | 黑天鵝事件：架構之證
 
 ### 6.0 Epigraph | 題辭
 
-> "Don't Predict. Monitor. Then Survive.  
-> 97% Drawdown = Dimensional Elevation of Quantitative Trading."
+> **"Don't Predict. Monitor. Then Survive.**
+>
+> From ¥50K to ¥1.35M to ¥30K:
+>
+> **97% Drawdown = Dimensional Elevation of Quantitative Trading.**
+>
+> The system didn't fail. It graduated."
 
----
-
-> 「莫測市。但監控。再活命。  
-> 97%回撤 = 量化交易的維度跃升。」
-
----
+> **「莫測市。但監控。再活命。**
+>
+> 從5萬到135萬到3萬：
+>
+> **97%回撤 = 量化交易的維度躍升。**
+>
+> 系統沒有失敗。它畢業了。」**
 
 ### 6.1 Timeline | 時間軸
 
@@ -262,6 +280,10 @@ python3 verify_merkle.py data.csv
 
 The empirical observation that the system *halted* before this event validates the a-priori circuit-breaker design.
 
+**假說**：*若系統繼續交易至 4 月 20 日，根據典型部位規模和槓桿配置，預估損失將超過 500 萬元。*
+
+系統在此事件之前**停止**的實驗觀察驗證了預先設計的熔斷機制。
+
 ---
 
 ## 7. Methodological Integrity | 方法論完整性
@@ -269,9 +291,10 @@ The empirical observation that the system *halted* before this event validates t
 ### 7.1 Data Provenance Statement | 數據來源聲明
 
 1. **Raw logs preserved with environmental parameters intact** (no data smoothing, no retroactive adjustments)
-2. **Broker identifiers partially anonymized** (Broker_A, Broker_B) while maintaining transaction authenticity
+2. **Broker identifiers partially anonymized** (KGI, 元大) while maintaining transaction authenticity
 3. **All timestamps locked by third-party infrastructure** (Gmail = trusted neutral party)
 4. **Interactive visualization available** for independent validation
+5. **Hardware independence**: Windows-based MultiCharts with deterministic restart via external scheduler (no cloud dependency)
 
 所有原始日誌保留環境參數（無數據平滑、無事後調整）；所有時間戳由第三方基礎設施鎖定（Gmail）。
 
@@ -280,14 +303,48 @@ The empirical observation that the system *halted* before this event validates t
 - System operated in non-institutional environment; results may not generalize to datacenter deployments
 - Single system instance limits statistical power for regime-shift detection
 - Leverage ratios and position sizing not disclosed (proprietary)
+- Correlation with broader market regime shifts requires additional data
 
 ---
 
-## 8. Archival Preservation | 檔案保存
+## 8. The SRE Trading Philosophy | SRE 交易哲學
+
+### 8.1 Core Doctrine | 核心教義
+
+> **"In the age of AI, we don't predict markets—we architect resilience.**
+>
+> My ¥50K mouse account didn't fail at 97% drawdown.
+> It graduated when oil prices went negative.
+>
+> Monitoring killed the prediction paradigm on 2020/04/20.
+>
+> This is not luck. This is proof that systems designed to **exit before collapse** outperform adaptive recovery in tail-risk scenarios."
+
+> **「在 AI 時代，我們不預測市場，而是架構韌性。**
+>
+> 我的 5 萬元小鼠帳戶在 97% 回撤時沒有失敗。
+> 它在油價變負時畢業了。
+>
+> 2020/04/20，監控擊殺了預測範式。
+>
+> 這不是運氣。這是證明，設計來**在崩潰前退場**的系統優於尾部風險場景中的自適應恢復。」**
+
+---
+
+## 9. Archival Preservation | 檔案保存
 
 This repository is maintained as a **forensic artifact**—a permanent record of system behavior under real-world conditions.
 
 本倉庫作為**法醫遺產**維護，永久記錄系統在真實環境下的行為。
+
+### IPFS Permanent Record | IPFS 永久記錄
+
+```
+IPFS Content Hash: bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4
+Merkle Root: 0538dd791e2e04ccb715db5aa548a83cc6b6cba1b9b62d5b4d75fe718bdd2f9a
+Sealed: Yes (Content-addressed, immutable)
+Accessible Via: https://ipfs.io/ipfs/bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4
+```
 
 ### Preservation Terms | 保存條款
 
@@ -302,9 +359,7 @@ Support for long-term archival is provided through:
 
 ---
 
-## 9. Conclusion | 結論
-
-### 9.0 Executive Summary | 執行摘要
+## 10. Conclusion | 結論
 
 This nine-year record demonstrates that **predetermined, explicit risk termination can outperform adaptive learning** in extreme market regimes. The system's ability to survive eight years of environmental shocks, combined with its timely exit before a structural breakdown, validates a risk philosophy centered on **controlled failure** rather than boundless adaptation.
 
@@ -312,29 +367,30 @@ The cryptographic audit trail—merkle-rooted, timestamp-locked, and third-party
 
 本九年紀錄表明，**預定的明確風險終止可在極端市場中優於自適應學習**。系統在八年環境衝擊後仍生存，結合其在結構性崩潰前的及時退出，驗證了以**受控失敗**而非無限適應為中心的風險哲學。
 
-### 9.1 Coda | 附言
+密碼學審計軌跡（merkle 根化、時間戳鎖定、第三方驗證）為極端環境中自主系統的無信任文檔提供模板。
 
-> **"In the age of AI, we don't predict markets—we architect resilience.**
+### 10.1 Coda | 附言
+
+> **"The logic is immutable. The history is sealed.**
 >
-> My ¥50K mouse account didn't fail at 97% drawdown.  
-> It graduated when oil prices went negative.  
-> Monitoring killed the prediction paradigm on 2020/04/20.
+> What you see here is not a trading record.
+> It is a **systems engineering artifact**.
 >
-> **For every SRE: Precision metrics never lie. Entropy is not destiny.**"
+> From 1984 FidoNet to 2025 AI integration:
+> This is what happens when a root-cause engineer
+> builds an autonomous system and then gets out of the way."
+
+> **「邏輯不可變。歷史已封。**
+>
+> 你在這裡看到的不是交易紀錄。
+> 它是**系統工程遺產**。
+>
+> 從 1984 FidoNet 到 2025 AI 整合：
+> 這就是根因工程師打造自主系統，然後閃開的結果。」**
 
 ---
 
-> **「在AI時代，我們不預測市場，而是架構韌性。**
->
-> 我的5萬元小鼠帳戶在97%回撤時沒有失敗。  
-> 它在油價變負時畢業了。  
-> 2020/04/20，監控擊殺了預測範式。
->
-> **對所有SRE而言：精確的指標從不說謊。熵不是宿命。」**
-
----
-
-## 10. References | 參考文獻
+## 11. References | 參考文獻
 
 [1] Taleb, N. N. (2007). *The Black Swan: The Impact of the Highly Improbable*. Random House.
 
@@ -346,31 +402,52 @@ The cryptographic audit trail—merkle-rooted, timestamp-locked, and third-party
 
 [5] Mouse Account Verification Archive (2012–2020). *Forensic Artifact Repository*. GitHub: https://github.com/RecoFu/mouse-account-verification
 
-[6] IPFS Specification (2022). *Content-Addressed Storage Protocol*. https://ipfs.io
+[6] RecoFu (2025). "Root Cause as a Service: From FidoNet to Post-Neumann AI Integration." *Sovereign Logic Systems*.
 
 ---
 
 ## Appendix A: System Parameters | 附錄 A：系統參數
 
-- **Operating System**: Windows + MultiChart (EasyLanguage)
+- **Operating System**: Windows + MultiCharts (home server, Taiwan)
 - **Runtime**: 2,913 continuous operational days (2012–2020)
-- **Network**: Residential ISP, no guaranteed connectivity
-- **Power**: Standard residential power + scheduled automatic restart via batch script + external SD backup
-- **Brokers**: Two independent brokers (Element Markets TX, KGI Securities) for redundancy
-- **Hardware Recovery**: Daily 8:00 AM watchdog timer → auto power-on → system state verification → post-market backup compression
+- **Network**: ISP-dependent, no guaranteed connectivity
+- **Power**: Standard residential power + UPS backup + SD card scheduler
+- **Brokers**: Two independent brokers (KGI, 元大) for redundancy
+- **Timestamp Authority**: Gmail (Google Infrastructure)
+- **Verification**: SHA-256 checksums, Merkle tree root, IPFS content addressing
 
 ---
 
 ## Appendix B: Interactive Data | 附錄 B：互動數據
 
 **Full equity curve with millisecond-level execution data:**  
-👉 [Interactive Visualization Dashboard](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/index.html)
+👉 [Interactive Dashboard](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html)
 
-**CSV Export for research purposes:**  
-👉 [data.csv](https://raw.githubusercontent.com/RecoFu/mouse-account-verification/RecoFu/data.csv)
+**Performance Chart (Static):**  
+👉 [Equity Curve Visualization](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/chart.png)
+
+**Raw Data (CSV):**  
+👉 [Transaction Log (data.csv)](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv)
 
 ---
 
-**"The logic is immutable. The history is sealed. The numbers speak."**
+## Appendix C: Cryptographic Proof of Authenticity | 附錄 C：真實性密碼學證明
 
-*Submitted as Forensic Artifact | 2026 | Sealed with SHA-256*
+```
+Git Repository: https://github.com/RecoFu/mouse-account-verification
+Branch: RecoFu (Main Archive)
+Commit Hash: [Sealed in Git History]
+
+IPFS Archive: bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4
+Merkle Root: 9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557
+Status: Content-Addressed, Immutable, Distributed
+
+Verification: Any bit modification in the dataset invalidates all hashes.
+Trust Model: Zero-knowledge proof via cryptographic anchors, not human authority.
+```
+
+---
+
+**"The logic is immutable. The history is sealed. The system survived."**
+
+*Submitted as Forensic Artifact for Permanent Record | 2026*
