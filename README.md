@@ -126,6 +126,7 @@ This is a sealed case study.
 No further optimization, continuation, or revival is intended.
 此為封存案例。  
 不再進行優化、延續或重啟。
+
 Contact & Settlement
 PayPal-supported settlement available upon verified review request.
 👉 https://paypal.me/RecoFu
