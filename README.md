@@ -87,7 +87,11 @@ If you have never taken real futures risk, this page is probably not written for
 3. **無權限轉移 (No Influence)**: 贊助並不授予任何所有權、授權許可或對專案決策的影響力。
 4. **現狀提供 (AS-IS)**: 所有內容均按「現狀」提供，不附帶任何形式的保證。
 
-### [👉 Support via PayPal (透過 PayPal 贊助)](https://paypal.me/RecoFu)
+</details>
+*   **Preservation Channel (PayPal):** [透過 PayPal 支持檔案保存]((https://paypal.me/RecoFu)
+*   **Sovereign Channel (Crypto):**
+    *   **ETH / USDT (ERC-20):** `0xYour_Address_Here`
+    *   **BTC:** `Your_BTC_Address_Here`
 ---
 **"The logic is immutable. The history is sealed."**
 *This is a personal PoW archive by Reco Fu. For commercial RCI services, visit [Sovereign Logic Systems].*
