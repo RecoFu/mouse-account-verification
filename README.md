@@ -158,6 +158,5 @@ This is a sealed record display and a technical case signed by the author. It wi
 此為封存、作者簽署之技術案例，不再進行優化、延續或重啟與任何回應交流。
 
 **If this looks obvious today, it is only because time has passed.**  
-**你今天的理所當然，只因時間已過。**
-
+**你今天過的理所當然，只因時間窗口已過。**
 ---
