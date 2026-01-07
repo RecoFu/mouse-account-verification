@@ -42,8 +42,8 @@ If you have never taken real futures risk, this page is probably not written for
 ---
 
 ## 📈 視覺化真跡 (Interactive Visualization)
-
-👉 **[📊 點此查看：全量數據互動線圖 (Interactive Equity Curve)](https://RecoFu.github.io/mouse-account-verification/)**
+本專案提供毫秒級動態折線圖，旨在展示系統在極端環境下的應激反應。
+👉 [**點此進入：全量數據互動線圖 (TradingView Engine)**](https://recofu.github.io/mouse-account-verification/)
 
 ---
 
@@ -62,36 +62,34 @@ If you have never taken real futures risk, this page is probably not written for
 
 為確保真跡之絕對純粹，本專案提供以下多維度校驗碼。任何位元偏移均將導致 Hash 失效。
 
-### 1. 物理層校驗 (Physical Layer Checksum)
-- **data.csv (SHA-256)**: `[41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B]`
-- **data.csv.ots (SHA-256)**: `[2497D2C57606F0A3E44402D98BBB8213B6F2DC6175E0B8A016EBC62F19C81A67]`
-- **Sovereign Signature**: `[41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B|2497D2C57606F0A3E44402D98BBB8213B6F2DC6175E0B8A016EBC62F19C81A67]`
+## 1. 物理層校驗 (Physical Layer Checksum)
+*   **Raw Data (SHA-256):** `41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B`
+*   **Verification:** 所有原始日誌由自動化系統即時發送至 Gmail，由 Google 伺服器保證時間戳精度。
 
 ### 2. 邏輯層校驗 (Logical Integrity)
-- **Merkle Root**: `9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557`
-- **Total Records**: `2,013`
+*   **Merkle Root (Standardized):** `9b38436a4487f9fc835b5ef9f66eb31e1ee806242001f1cb7478d238e4402557`
+*   **Total Records:** 2,013 筆真實執行紀錄。
 
 ### 3. 身分權利鎖定 (Identity Lock)
-- **Identity Signature**: `a2a41fa07b1b82c18f373b499910779a46b85387180153f9e2a1bc4c13d78373`
-- **Status**: **Authenticated by Sovereign_0x**
+*   **Sovereign Signature:** `a2a41fa07b1b82c18f373b499910779a46b85387180153f9e2a1bc4c13d78373`
+*   **Status:** Authenticated by **Sovereign_0x** (Reco Fu).
 
 ---
-## ☕ Support My Work (支持我的創作)
+## ☕ 檔案保存與自願性認可 (Archival Preservation)
 
-If my software or articles have provided value to you, feel free to support my ongoing work!
-如果我的軟體或文章對你有所幫助，歡迎支持我的持續創作！
-> [!IMPORTANT]
-> **Terms of Support (贊助條款與免責聲明):**  
-> **"This repository is a forensic artifact. Support is an act of preserving the truth, not a transaction for service."**  
-> （本倉庫為法醫遺產。贊助是為了保存真理，而非服務交易。）
-> 1. **Pure Gratitude (純粹贈與):** This payment is a **voluntary gift** in appreciation of existing free content. It is NOT a payment for goods, future updates, or custom services.
->    (此款項為對既有免費內容的**自願性贈與**，不包含任何商品交易、後續更新或客製化服務。)
-> 2. **Final & Non-Refundable (不可撤回):** By completing the transaction, you waive the right to a refund. All supports are final.
->    (完成交易即表示您放棄退款權利，所有贊助款項均**不予退還**。)
-> 3. **No Contractual Obligation (無契約關係):** This support does not establish a buyer-seller relationship. All content is provided "AS-IS" without any warranties.
->    (此贊助不構成買賣契約。所有內容均按「現狀」提供，不附帶任何形式的保證。)
-> 4. **No Ownership or Influence (無權限轉移):** Support does not grant any ownership, licensing rights, or influence over project decisions.
->    (贊助並不授予任何所有權、授權許可或對專案決策的影響力。)
+本倉庫作為一份「法醫遺產（Forensic Artifact）」進行維護。保存真理需要算力與意志，部分讀者曾詢問如何對此項目的長期存續做出貢獻。
+
+<details>
+<summary><b>點擊展開：贊助條款與免責聲明 (Terms of Support)</b></summary>
+
+1. **純粹贈與 (Pure Gratitude)**: 此款項為對既有免費內容的自願性贈與，不構成買賣契約，亦不包含任何商品、更新或客製化服務。
+2. **不可撤回 (Final & Non-Refundable)**: 完成交易即表示您放棄退款權利。
+3. **無權限轉移 (No Influence)**: 贊助並不授予任何所有權、授權許可或對專案決策的影響力。
+4. **現狀提供 (AS-IS)**: 所有內容均按「現狀」提供，不附帶任何形式的保證。
+
 ### [👉 Support via PayPal (透過 PayPal 贊助)](https://paypal.me/RecoFu)
 ---
-**"The logic is immutable. The history is sealed."**  
+**"The logic is immutable. The history is sealed."**
+*This is a personal PoW archive by Reco Fu. For commercial RCI services, visit [Sovereign Logic Systems].*
+```
+--- 
