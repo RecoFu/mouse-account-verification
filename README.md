@@ -60,8 +60,6 @@ It is not, by itself, a system failure.
 它就是虧損。  
 但「虧損」本身，不等於「系統失敗」。
 
-## 3.x Interactive Equity Curve | 互動股權曲線（TradingView 動態圖）
-👉 https://recofu.github.io/mouse-account-verification/index.html
 ---
 
 ### Definition 3.2 — Terminal Condition
@@ -71,6 +69,9 @@ Once triggered, the system cannot resume trading.
 
 終止條件（Terminal Condition）是事先定義好的停機規則。  
 一旦觸發，系統永久停止，不再運作。
+
+## 3.x Interactive Equity Curve | 互動股權曲線（TradingView 動態圖）
+👉 https://recofu.github.io/mouse-account-verification/index.html
 
 ---
 
