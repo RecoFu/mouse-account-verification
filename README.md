@@ -155,7 +155,7 @@ All raw data is publicly accessible and verifiable:
 |:---:|:----:|:-------:|:-------:|
 | **原始交易** | CSV | [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv) | SHA-256 校驗 |
 | **股權視覺化** | PNG | [chart.png](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/chart.png) | 視覺審計 |
-| **互動儀表板** | HTML | [index.html](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html) | 即時資料繫結 |
+| **互動儀表板** | HTML | [index.html](https://recofu.github.io/mouse-account-verification/index.html) | 即時資料繫結 |
 | **IPFS 存檔** | 分佈式 | `bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4` | 內容尋址 |
 
 ---
