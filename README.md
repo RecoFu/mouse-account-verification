@@ -93,9 +93,6 @@ If you have never taken real futures risk, this page is probably not written for
 *   **Sovereign Channel (Crypto):**
     *   **ETH / USDT (ERC-20):** `0xYour_Address_Here`
     *   **BTC:** `Your_BTC_Address_Here`
-
 ---
 **"The logic is immutable. The history is sealed."**
-*This is a personal PoW archive by Reco Fu. For commercial RCI services, visit [Sovereign Logic Systems].*
-```
 --- 
