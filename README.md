@@ -97,12 +97,13 @@ All raw data is publicly accessible and cryptographically verifiable. The raw tr
 
 所有原始資料均可公開訪問且加密可驗證。原始交易 CSV 檔案包含所有 2,013 筆執行交易與毫秒級精度時間戳。股權曲線 PNG 顯示系統隨時間績效的視覺表示。互動式 TradingView 儀表板允許實時檢查交易序列。IPFS 檔案提供完整資料集的永久、分散、不可變副本。所有雜湊值如下提供以供獨立驗證。您可下載 data.csv，計算其 SHA-256，並驗證其與已發布雜湊值相符。您可下載 Merkle 根驗證代碼並從交易清單重新計算根。
 
+![Equity Curve](chart.png)
+
 | Asset | Format | Location | Hash Verification |
 |:---:|:----:|:-------:|:-------:|
 | **Raw Transactions** | CSV | [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv) | `41316C89AA8759E8EDE969F5CED06A81D8F2A0484DFC68D4630C197AFECEE82B` |
-| **Equity Curve** | PNG | [chart.png](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/chart.png?raw=true) | Visual verification |
 | **Interactive Dashboard** | HTML | [TradingView](https://recofu.github.io/mouse-account-verification/index.html) | Real-time binding |
-| **IPFS Archive** | Distributed | [IPFS](https://ipfs.io/ipfs/bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4) | Content-addressed |
+| **IPFS Archive** | Distributed |bafybeigzq7c3yljcxsvjivrphlgo7mhsilcc5qhm24i4tbwcgw5ucjimp4 | Content-addressed |
 
 ---
 
