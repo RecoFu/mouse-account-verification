@@ -38,7 +38,7 @@ After the canary HALT event, market volatility persisted all the way until negat
 If this seems obvious now, **return to 2012 and examine what was being built**; there is no shortcut.
 
 2012 年，這套系統已完整設計並投入運作，並持續運行 **9 年**。  
-金絲雀熔斷事件後，市場動盪一直延續至負油價出現（2020‑04‑20）。  
+金絲雀熔斷事件前後，市場持續動盪一直延續至負油價定錨（2020‑04‑20）。  
 若今天看似顯而易見，**請回到 2012，看看當時實際在建什麼；沒有捷徑**。
 
 > This is not a claim of causality; it is a documented time‑ordered observation.  
