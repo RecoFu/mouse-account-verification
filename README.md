@@ -154,7 +154,7 @@ All mitigated via raw logs, hash anchors, Merkle Root, and pre-declared HALT rul
 ---
 
 ## Final Note | 最終說明
-This is a sealed record display and a technical case signed by the author. It will not be optimized, continued, restarted, or responded to or communicated with in any way. 
+This is a sealed record display and a technical case signed by the author. It will not be optimized, continued, restarted, or responded to or communicated with in any way.   
 此為封存、作者簽署之技術案例，不再進行優化、延續或重啟與任何回應交流。
 
 **If this looks obvious today, it is only because time has passed.**  
