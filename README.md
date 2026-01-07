@@ -128,7 +128,7 @@ A transaction record satisfies **forensic integrity** if:
 
 - **Primary Source**: Automated email logs from MultiCharts execution → Gmail server
 - **Raw Data Archive**: [data.csv](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/data.csv) in repository
-- **Secondary Verification**: [Interactive equity curve](https://github.com/RecoFu/mouse-account-verification/blob/RecoFu/index.html) with TradingView engine
+- **Secondary Verification**: [Interactive equity curve](https://recofu.github.io/mouse-account-verification/index.html) with TradingView engine
 - **Audit Trail**: Complete order flow with environment parameters preserved (no data smoothing)
 
 **2,013 筆驗證交易紀錄**附毫秒級執行時間戳。
