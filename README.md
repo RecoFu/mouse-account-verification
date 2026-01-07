@@ -22,7 +22,7 @@ This paper presents a **nine-year empirical study** of an autonomous quantitativ
 
 > **"Prediction is a fool's errand; Monitoring is a Science.**
 >
-> From ¥50K (2012) → ¥1.35M (2019) → ¥30K (2020/03/18):
+> From NT$50K (2012) → NT$1.35M (2019) → NT$30K (2020/03/18):
 >
 > This 97% drawdown was not a failure.
 > It was the system proving it could exit **before** structural collapse.
@@ -103,15 +103,15 @@ A transaction record satisfies **forensic integrity** if:
 
 | Year | Trades | Error Rate | Ending Equity | YoY Return | Cumulative Return | Status |
 |:----:|:-------:|:----------:|:-------------:|:----------:|:---:|:-----:|
-| 2012 | 0 | 100% | ¥50,000 | 0.00% | 0.00% | Bootstrap |
-| 2013 | 42 | 2.33% | ¥80,000 | 60.00% | 60.00% | Stable |
-| 2014 | 210 | 0.00% | ¥150,000 | 87.50% | 200.00% | Optimized |
-| 2015 | 391 | 0.00% | ¥360,000 | 140.0% | 620.0% | Alpha Max |
-| 2016 | 405 | 0.00% | ¥315,493 | −12.3% | 530.9% | Drawdown |
-| 2017 | 23 | 89.6% | ¥637,711 | 102.1% | 1,175.4% | Recovery |
-| 2018 | 162 | 40.9% | ¥997,678 | −0.01% | 143.3% | Net Liquidity |
-| 2019 | 194 | 33.1% | ¥1,350,000 | 35.31% | 229.2% | Peak |
-| 2020 | 112 | 33.7% | ¥30,000 | −97.7% | Graduation | **Regime-Shift Termination (Graduation)** |
+| 2012 | 0 | 100% | NT$50,000 | 0.00% | 0.00% | Bootstrap |
+| 2013 | 42 | 2.33% | NT$80,000 | 60.00% | 60.00% | Stable |
+| 2014 | 210 | 0.00% | NT$150,000 | 87.50% | 200.00% | Optimized |
+| 2015 | 391 | 0.00% | NT$360,000 | 140.0% | 620.0% | Alpha Max |
+| 2016 | 405 | 0.00% | NT$315,493 | −12.3% | 530.9% | Drawdown |
+| 2017 | 23 | 89.6% | NT$637,711 | 102.1% | 1,175.4% | Recovery |
+| 2018 | 162 | 40.9% | NT$997,678 | −0.01% | 143.3% | Net Liquidity |
+| 2019 | 194 | 33.1% | NT$1,350,000 | 35.31% | 229.2% | Peak |
+| 2020 | 112 | 33.7% | NT$30,000 | −97.7% | Graduation | **Regime-Shift Termination (Graduation)** |
 
 ### 3.2 Data Provenance | 數據源
 
@@ -185,7 +185,7 @@ Authenticated by: Sovereign_0x (Reco Fu)
 
 > **"Don't Predict. Monitor. Then Survive.**
 >
-> From ¥50K to ¥1.35M to ¥30K:
+> From NT$50K to NT$1.35M to NT$30K:
 >
 > **97% Drawdown = Dimensional Elevation of Quantitative Trading.**
 >
@@ -205,7 +205,7 @@ Authenticated by: Sovereign_0x (Reco Fu)
 
 **Scenario Analysis** (not realized PnL):
 
-If system had continued trading through 2020/04/20, estimated loss range under historical position sizing *(based on historical volatility scaling and 2015–2019 regime data)*: ¥X–¥Y, median scenario ≈ ¥5,000,000. Exact sizing parameters remain proprietary.
+If system had continued trading through 2020/04/20, estimated loss range under historical position sizing *(based on historical volatility scaling and 2015–2019 regime data)*: NT$X–NT$Y, median scenario ≈ NT$5,000,000. Exact sizing parameters remain proprietary.
 
 **Validation**: System did halt before this event, validating pre-committed exit design.
 
@@ -236,7 +236,7 @@ If system had continued trading through 2020/04/20, estimated loss range under h
 
 > **"In the age of AI, we don't predict markets—we architect resilience.**
 >
-> My ¥50K mouse account didn't fail at 97% drawdown.
+> My NT$50K mouse account didn't fail at 97% drawdown.
 > It graduated when oil prices went negative.
 >
 > Monitoring killed the prediction paradigm on 2020/04/20.
