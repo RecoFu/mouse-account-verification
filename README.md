@@ -135,6 +135,7 @@ Minimize reviewer ambiguity; all numbers traceable to `data.csv`.
 **Contact & Settlement | 聯絡與結算**  
 PayPal-supported settlement available **after verified review request**.  
 若有收穫，歡迎透過 PayPal 隨時進行無償支助。  
+Greater Alpha, Greater Edge Responsibility
 👉 https://paypal.me/RecoFu
 
 ---
